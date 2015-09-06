@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Datepicker - Select a Date Range</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  
+</head>
+<body>
+ <script>
+  $(function() {
+    $( "#datetimepicker6" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 1,
+      onClose: function( selectedDate ) {
+        $( "#datetimepicker7" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#datetimepicker7" ).datepicker({
+      defaultDate: "+1w",
+      changeMonth: true,
+      numberOfMonths: 1,
+      onClose: function( selectedDate ) {
+        $( "#datetimepicker6" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+  });
+  </script>
+<div class="row container">
+                <div class="col-sm-6">
+                    <div class='col-md-5'>
+                        <div class="form-group">
+                            <div class='input-group date'>
+                                <input type='text'  id='datetimepicker6' name="dateStart" class="hasDatepicker form-control" />
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  
+                    <div class='col-md-5'>
+                        <div class="form-group">
+                            <div class='input-group date'>
+                                <input type='text' id='datetimepicker7' name="dateEnd" class="hasDatepicker form-control" />
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <categories>
+        <category>
+            <title>Automotive</title>
+            <childs>
+                <category>
+                    <title>Car Dealerships</title>
+                    <code>car_dealer</code>
+                </category>
+                <category>
+                    <title>Car Rental Companies</title>
+                    <code>car_rental</code>
+                </category>
+                <category>
+                    <title>Auto Repair Shops</title>
+                    <code>auto_repair</code>
+                </category>
+                <category>
+                    <title>Car Washes</title>
+                    <code>car_washes</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Beauty</title>
+            <childs>
+                <category>
+                    <title>Beauty Salons</title>
+                    <code>beauty_salon</code>
+                </category>
+                <category>
+                    <title>Hair Salons</title>
+                    <code>hair_salon</code>
+                </category>
+                <category>
+                    <title>Spas</title>
+                    <code>spa</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Education</title>
+            <childs>
+                <category>
+                    <title>Schools</title>
+                    <code>school</code>
+                </category>
+                <category>
+                    <title>Colleges</title>
+                    <code>college</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Entertainment</title>
+            <childs>
+                <category>
+                    <title>Amusement Parks</title>
+                    <code>amusement_park</code>
+                </category>
+                <category>
+                    <title>Aquariums and related</title>
+                    <code>aquarium</code>
+                </category>
+                <category>
+                    <title>Art Galleries</title>
+                    <code>art_gallery</code>
+                </category>
+                <category>
+                    <title>Bowling Establishments</title>
+                    <code>bowling</code>
+                </category>
+                <category>
+                    <title>Casinos</title>
+                    <code>casino</code>
+                </category>
+                <category>
+                    <title>Film Theatres</title>
+                    <code>cinema</code>
+                </category>
+                <category>
+                    <title>Museums</title>
+                    <code>museum</code>
+                </category>
+                <category>
+                    <title>Stadiums</title>
+                    <code>stadium</code>
+                </category>
+                <category>
+                    <title>Zoo</title>
+                    <code>zoo</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Finance</title>
+            <childs>
+                <category>
+                    <title>ATMs</title>
+                    <code>atm</code>
+                </category>
+                <category>
+                    <title>Banks</title>
+                    <code>bank</code>
+                </category>
+                <category>
+                    <title>Finance and related</title>
+                    <code>finance</code>
+                </category>
+                <category>
+                    <title>Insurance Agencies</title>
+                    <code>insurance</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Food</title>
+            <childs>
+                <category>
+                    <title>Bakeries</title>
+                    <code>bakery</code>
+                </category>
+                <category>
+                    <title>Cafes</title>
+                    <code>cafe</code>
+                </category>
+                <category>
+                    <title>Food</title>
+                    <code>food</code>
+                </category>
+                <category>
+                    <title>Super Markets and Grocery Stores</title>
+                    <code>supermarket</code>
+                </category>
+                <category>
+                    <title>Meal Delivery Businesses</title>
+                    <code>meal_delivery</code>
+                </category>
+                <category>
+                    <title>Take Out Restaurants</title>
+                    <code>takeout_restaurant</code>
+                </category>
+                <category>
+                    <title>Restaurants</title>
+                    <code>restaurant</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Funerals and Cemetaries</title>
+            <childs>
+                <category>
+                    <title>Cemeteries</title>
+                    <code>cemetery</code>
+                </category>
+                <category>
+                    <title>Funeral Home</title>
+                    <code>funeral</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>General Business</title>
+            <childs>
+                <category>
+                    <title>Business General</title>
+                    <code>buisiness</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Government</title>
+            <childs>
+                <category>
+                    <title>City Hall and related</title>
+                    <code>city_hall</code>
+                </category>
+                <category>
+                    <title>Court House</title>
+                    <code>court</code>
+                </category>
+                <category>
+                    <title>Embassy</title>
+                    <code>embassy</code>
+                </category>
+                <category>
+                    <title>Fire House</title>
+                    <code>fire_house</code>
+                </category>
+                <category>
+                    <title>Libraries</title>
+                    <code>library</code>
+                </category>
+                <category>
+                    <title>Local Government Buildings</title>
+                    <code>goverment_building</code>
+                </category>
+                <category>
+                    <title>Law Enforcement</title>
+                    <code>law</code>
+                </category>
+                <category>
+                    <title>Post Office</title>
+                    <code>post_office</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Health</title>
+            <childs>
+                <category>
+                    <title>Fitness Clubs</title>
+                    <code>fitness</code>
+                </category>
+                <category>
+                    <title>Health Stores</title>
+                    <code>health_store</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Home Goods</title>
+            <childs>
+                <category>
+                    <title>Hardware Stores</title>
+                    <code>hardware_store</code>
+                </category>
+                <category>
+                    <title>Home Goods Stores</title>
+                    <code>homegood_store</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Home Services</title>
+            <childs>
+                <category>
+                    <title>Electrician</title>
+                    <code>electrican</code>
+                </category>
+                <category>
+                    <title>Construction Companies</title>
+                    <code>construction</code>
+                </category>
+                <category>
+                    <title>Painting Contractor</title>
+                    <code>painting</code>
+                </category>
+                <category>
+                    <title>Roofers</title>
+                    <code>roofer</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Medical</title>
+            <childs>
+                <category>
+                    <title>Dentists and related</title>
+                    <code>dentist</code>
+                </category>
+                <category>
+                    <title>Doctors Office and Related</title>
+                    <code>doctors</code>
+                </category>
+                <category>
+                    <title>Hospitals</title>
+                    <code>hospital</code>
+                </category>
+                <category>
+                    <title>Physical Therapists</title>
+                    <code>therapist</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Nightlife</title>
+            <childs>
+                <category>
+                    <title>Bars</title>
+                    <code>bar</code>
+                </category>
+                <category>
+                    <title>Night Clubs</title>
+                    <code>night_club</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Pets</title>
+            <childs>
+                <category>
+                    <title>Pet Supply Store and Related</title>
+                    <code>pet_supply</code>
+                </category>
+                <category>
+                    <title>Animal Hospitals and Veterinarians</title>
+                    <code>animal_hospital</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Professional Services</title>
+            <childs>
+                <category>
+                    <title>Accounting Offices and related</title>
+                    <code>accounting_office</code>
+                </category>
+                <category>
+                    <title>Attorneys</title>
+                    <code>attorney</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Real Estate</title>
+            <childs>
+                <category>
+                    <title>Real Estate Agents</title>
+                    <code>real_estate</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Religious</title>
+            <childs>
+                <category>
+                    <title>Churches and related</title>
+                    <code>church</code>
+                </category>
+                <category>
+                    <title>Hindu Temples</title>
+                    <code>hindu</code>
+                </category>
+                <category>
+                    <title>Mosque</title>
+                    <code>mosque</code>
+                </category>
+                <category>
+                    <title>Religious Places</title>
+                    <code>religious_place</code>
+                </category>
+                <category>
+                    <title>Synagogue</title>
+                    <code>synagogue</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Retail</title>
+            <childs>
+                <category>
+                    <title>Book Stores</title>
+                    <code>book_store</code>
+                </category>
+                <category>
+                    <title>Apparel Retail</title>
+                    <code>apparel_store</code>
+                </category>
+                <category>
+                    <title>Convenience Stores and Gas Stations</title>
+                    <code>gas_station</code>
+                </category>
+                <category>
+                    <title>Electronics Retailer</title>
+                    <code>electronics_store</code>
+                </category>
+                <category>
+                    <title>Florists</title>
+                    <code>florist</code>
+                </category>
+                <category>
+                    <title>Shopping Center</title>
+                    <code>shopping_center</code>
+                </category>
+                <category>
+                    <title>Storage</title>
+                    <code>storage</code>
+                </category>
+                <category>
+                    <title>Store</title>
+                    <code>store</code>
+                </category>
+                <category>
+                    <title>DVD Rental Stores</title>
+                    <code>dvd_store</code>
+                </category>
+                <category>
+                    <title>Movers</title>
+                    <code>mover</code>
+                </category>
+                <category>
+                    <title>Parking Lot</title>
+                    <code>parking</code>
+                </category>
+                <category>
+                    <title>Pharmacies</title>
+                    <code>pharmacy</code>
+                </category>
+                <category>
+                    <title>Plumbers</title>
+                    <code>plumber</code>
+                </category>
+                <category>
+                    <title>Shoe Stores</title>
+                    <code>shoe_store</code>
+                </category>
+                <category>
+                    <title>Furniture Retailer</title>
+                    <code>furniture_store</code>
+                </category>
+                <category>
+                    <title>Jewelry Stores</title>
+                    <code>juwelry_store</code>
+                </category>
+                <category>
+                    <title>Laundry Mats</title>
+                    <code>laundry</code>
+                </category>
+                <category>
+                    <title>Liqour Stores</title>
+                    <code>liqour_store</code>
+                </category>
+                <category>
+                    <title>Locksmiths</title>
+                    <code>locksmith</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Sports and Recreation</title>
+            <childs>
+                <category>
+                    <title>Bicycle Shops</title>
+                    <code>bicycle_store</code>
+                </category>
+                <category>
+                    <title>Camping Grounds and related</title>
+                    <code>camping_ground</code>
+                </category>
+                <category>
+                    <title>Park</title>
+                    <code>park</code>
+                </category>
+                <category>
+                    <title>RV Parks</title>
+                    <code>rv_park</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Transportation</title>
+            <childs>
+                <category>
+                    <title>Bus Stops, Stations and Related</title>
+                    <code>bus_stops</code>
+                </category>
+                <category>
+                    <title>Subway</title>
+                    <code>subway</code>
+                </category>
+                <category>
+                    <title>Taxi Stand</title>
+                    <code>taxi</code>
+                </category>
+                <category>
+                    <title>Train Stations</title>
+                    <code>train_station</code>
+                </category>
+            </childs>
+        </category>
+        <category>
+            <title>Travel</title>
+            <childs>
+                <category>
+                    <title>Airports</title>
+                    <code>airport</code>
+                </category>
+                <category>
+                    <title>Lodges</title>
+                    <code>lodge</code>
+                </category>
+                <category>
+                    <title>Travel Agencies</title>
+                    <code>travel_agency</code>
+                </category>
+            </childs>
+        </category>
+    </categories>

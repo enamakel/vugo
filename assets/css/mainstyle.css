@@ -1,0 +1,20 @@
+.fa-info-circle{
+    cursor: pointer;
+}
+.vw-hide{display:none !important;}
+.vw-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}
+.vw-hide-add-active,.vw-hide-remove{display:block!important;}
+.error {
+    background: none repeat scroll 0 0 #fff;
+    border: 2px solid red;
+    height: auto !important;
+    margin: 10px;
+    padding: 5px 5px 5px 30px;
+    width: auto;
+}
+.dashboard {
+    background: none no-repeat no-repeat scroll center center / cover  rgba(0, 0, 0, 0) !important;
+}
+.ng-hide {
+    display: none;
+}
