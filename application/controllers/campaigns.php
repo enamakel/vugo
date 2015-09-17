@@ -91,7 +91,8 @@ class Campaigns extends CI_Controller {
         if ($this->form_validation->run() != FALSE) {
             $this->_data = $this->campaign->setCampaign($campaignData)->save();
         } else {
-            return $this->load->view('campaign/vwStepMain', $campaignData);
+            $campaignData['errors'] = $this->form_validation->error_string();
+            return $this->load->view('campaign/vwStepMain', array('campaign'=>$campaignData,'bradcrumbs'=>array('campaigns'=>'Campaigns','Campaign Details')));
         }
         
         redirect('campaigns/campaign/'.$this->_data['campaign_id']);

@@ -11,7 +11,7 @@ $this->load->helper('campaign');
                         <div style="background-color:#000;max-height:300px;color:#fff" class="text-center">
                             <?php if($campaign['type']=='image'): ?>
                             <div class="">
-                                <?php if(file_exists($campaign['real_path'])): ?>
+                                <?php if(isset($campaign['real_path']) && is_file($campaign['real_path'])): ?>
                                     <img src="<?php echo $campaign['absolute_url']?>" style="max-height: 300px">
                                 <?php else:?>
                                      <div class="panel-body text-center">
@@ -36,7 +36,13 @@ $this->load->helper('campaign');
                     <i class="fa fa-warning"></i>
                     &nbsp;Right now Viewswagen is in the Pilot mode, and any change to campaign will be processed with delay..
                 </div>
-               
+                
+                <?php if(isset($campaign['errors']) && $campaign['errors']): ?>
+                    <div class="alert alert-danger ng-scope">
+                        <i class="fa fa-warning"></i>
+                        <?php echo str_replace('p>','span>',$campaign['errors']); ?>
+                    </div>
+                <?php endif;?>
                 <div class="panel panel-default ng-scope">
                     <div class="panel-heading">
                         <button class="pull-right btn btn-default ng-hide">Edit</button>
