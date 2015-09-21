@@ -1,9 +1,14 @@
 <?php $this->load->view('vwHeader_vw',array('bradcrumbs'=>$bradcrumbs)); 
 $this->load->helper('campaign');
+$this->load->helper('url');
 ?>
-<link href="<?php echo HTTP_CSS_PATH; ?>uploadfile.min.css" rel="stylesheet">
+<link href="<?php echo HTTP_CSS_PATH; ?>jquery.fileupload.css" rel="stylesheet">
 <script src="<?php echo HTTP_JS_PATH; ?>jquery.form.js"></script>
-<script src="<?php echo HTTP_JS_PATH; ?>jquery.uploadfile.min.js"></script>
+
+<script src="<?php echo HTTP_JS_PATH; ?>jquery-ui.min.js"></script>
+<script src="<?php echo HTTP_JS_PATH; ?>jquery.ui.widget.js"></script>
+<script src="<?php echo HTTP_JS_PATH; ?>jquery.iframe-transport.js"></script>
+<script src="<?php echo HTTP_JS_PATH; ?>jquery.fileupload.js"></script>
 
             <div ui-view="" class="ng-scope">
                 <div class="panel panel-default ng-scope">
@@ -34,13 +39,15 @@ $this->load->helper('campaign');
 
                 <div class="alert alert-warning ng-scope">
                     <i class="fa fa-warning"></i>
-                    &nbsp;Right now Viewswagen is in the Pilot mode, and any change to campaign will be processed with delay..
+                    &nbsp;Right now Vugo is in the Pilot mode, and any change to campaign will be processed with delay..
                 </div>
                
                 <?php if(isset($campaign['errors']) && $campaign['errors']): ?>
                     <div class="alert alert-danger ng-scope" style="white-space: nobr;">
-                        <i class="fa fa-warning"></i>
-                        <?php echo $campaign['errors']; ?>
+                        <i class="fa fa-warning" style="float:left;"></i>
+                        <ul>
+                            <?php echo str_replace('p>','li>',$campaign['errors']); ?>
+                        </ul>
                     </div>
                 <?php endif;?>
                 <div class="panel panel-default ng-scope">
@@ -51,7 +58,7 @@ $this->load->helper('campaign');
                             Please configure parameters of your campaign.
                         </div>
                     </div>
-                    <form id="campaign-main-form" action="<?php echo HTTP_BASE_URL."campaigns/save_main"?>" method="post" enctype="ultipart/form-data">
+                    <form id="campaign-main-form" class="form" action="<?php echo HTTP_BASE_URL."campaigns/save_main"?>" method="post" enctype="ultipart/form-data">
                         <input type="hidden" name="campaign_id" value="<?php echo (isset($campaign['campaign_id'])?$campaign['campaign_id']:'') ?>"
                         <div class="slide-animation">
                             <div ng-form="configurationForm" class="panel-body">
@@ -115,6 +122,15 @@ $this->load->helper('campaign');
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                                <span class="btn btn-success fileinput-button">
+                                                    <i class="glyphicon glyphicon-plus"></i>
+                                                    <span>Select file</span>
+                                                    <!-- The file input field used as target for the file upload widget -->
+                                                    <input id="fileupload" type="file" name="file" multiple>
+                                                </span>
+                                            <div class="progress" id="progress">
+                                                <div class="progress-bar progress-bar-success"></div>
                                             </div>
                                             <input type="hidden" value="" name="file_data" id="file-data"/>
                                         </div>
@@ -184,6 +200,40 @@ $this->load->helper('campaign');
                 </div>
             <?php $this->load->view('campaign/vwStepSchedule',array('campaign'=>isset($campaign)?$campaign:array())); ?>
 <script type="text/javascript">
+    
+    $('#fileupload').fileupload({
+        url: '<?php echo site_url('campaigns/upload');?>',
+        dataType: 'json',
+        start: function(e,data) {
+            $('#file-info').remove();
+            $('#upload-error').remove();
+//            $('.btn-success').hide();
+            $('#progress').show();
+            $('.progress .progress-bar').css('width', '0%'); 
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+           
+            $('.progress .progress-bar').css('width', progress + '%'); 
+        },
+        done: function (e, data) {
+            if(data.result.error != undefined){
+                $('#file-format-div').append("<div class='error' id='upload-error'></div>");
+                $('#upload-error').html(data.result.error); // add error
+                $('#upload-error').fadeIn('slow');
+            } else{
+                $('#upload-error').hide(); // hide error
+                $('.fileinput-button span').html('Select other');
+                $('#file-format-div').append("<div class='file-info' id=file-info><span class='file_name'>File name: "+data.result.orig_name+"</span></div>");
+                $('#file-data').val(JSON.stringify(data));
+                if(data.result.image_width) {
+                    $('#file-info').append("("+data.result.image_width+"x"+data.result.image_height+")");
+                }
+            }
+            $('#progress').hide();
+        }
+    });
+
     var showFrequency = function(campaign_freq){
         if(campaign_freq) {
             var values = $("#frequency-select>option").map(function() { return $(this).val(); });
@@ -239,120 +289,100 @@ $this->load->helper('campaign');
         <?php endif;?>
         $('.check-file-format').click(checkFileType);
         
-        $('#campaign-main-form').bootstrapValidator({
-            framework: 'bootstrap',
-            icon: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            excluded: ':disabled, :hidden',
-            fields: {
+        $('#campaign-main-form').validate({
+            ignore: ":disabled, :hidden",
+            rules: {
                 name: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campaign Name is required'
-                        }
-                    }
+                    required:true
                 },
                 landing_url: {
-                    validators: {
-                        notEmpty: {
-                            message: ' Landing Page Url is required'
-                        }
-                    }
+                    required:true
                 },
                 budget: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Budget for Campaign is required'
-                        },
-                        lessThan: {
-                            value: 50000,
-                            message: 'Budget for Campaign should not exceed $50,000.00'
-                        },
-                        greaterThan: {
-                            value: 1000,
-                            message: 'Min Budget for Campaign is $1,000.00'
-                        }
-                    }
+                    required:true,
+                    min:1000,
+                    max:50000
                 },
                 monthly_cap: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Monthly spending cap is required'
-                        },
-                        lessThan: {
-                            value: 50000,
-                            message: 'Monthly spending cap should not exceed $50,000.00'
-                        },
-                        greaterThan: {
-                            value: 0.01,
-                            message: 'Monthly spending cap should be positive number'
-                        }
-                    }
+                    required:true,
+                    min:0.01,
+                    max:50000
                 },
                 daily_cap: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Daily spending cap is required'
-                        },
-                        lessThan: {
-                            value: 50000,
-                            message: 'Daily spending cap should not exceed $50,000.00'
-                        },
-                        greaterThan: {
-                            value: 0.01,
-                            message: 'Daily spending cap should be positive number'
-                        }
-                    }
+                    required:true,
+                    min:0.01,
+                    max:50000
+                }
+            },
+            messages: {
+                name: {
+                    required: "Campaign Name is required",    
+                },
+                landing_url: {
+                    required: "Landing Page Url is required",    
+                },
+                budget: {
+                    required: "Budget for Campaign is required",
+                    min: "Min Budget for Campaign is $1,000.00",
+                    max: "Budget for Campaign should not exceed $50,000.00"
+                },
+                monthly_cap: {
+                    required: "Monthly spending cap is required",
+                    min: "Monthly spending cap should be positive number",
+                    max: "Monthly spending cap should not exceed $50,000.00"
+                },
+                daily_cap: {
+                    required: "Daily spending cap is required",
+                    min: "Daily spending cap should be positive number",
+                    max: "Daily spending cap should not exceed $50,000.00"
                 }
             }
-        }); 
-        $("#imageuploader").uploadFile({
-            url:"<?php echo HTTP_BASE_URL."campaigns/upload"?>",
-            multiple:false,
-            autoSubmit:true,
-            showDelete: true,
-            showAbort: false,
-            showDone: false,
-            showDownload: true,
-            maxFileCount:1,
-            onSubmit:function() {
-                $('.ajax-upload-dragdrop').hide();
-            },
-            downloadCallback: function (data, pd) {
-                 window.open("<?php echo HTTP_BASE_URL."uploads/".$this->session->userdata('id').'/'?>"+data.data.file_name,'_blank');
-            },
-            deleteCallback: function() {
-                $('.ajax-upload-dragdrop').show();
-            },
-            onSuccess: function(files,data) {
-                var postData = JSON.stringify(data);
-                $('#file-data').val(postData);
-            }
-	});
-        $("#videouploader").uploadFile({
-            url:"<?php echo HTTP_BASE_URL."campaigns/upload"?>",
-            multiple:false,
-            autoSubmit:true,
-            showDelete: true,
-            showDone: false,
-            showDownload: true,
-            maxFileCount:1,
-            onSubmit:function() {
-                $('.ajax-upload-dragdrop').hide();
-            },
-            downloadCallback: function (data, pd) {
-                 window.open("<?php echo HTTP_BASE_URL."uploads/"?>"+data.data.file_name,'_blank');
-            },
-            deleteCallback: function() {
-                $('.ajax-upload-dragdrop').show();
-            }
-	});
-        $('.ajax-file-upload-abort').click(function(){
-            $('.ajax-upload-dragdrop').show();
         });
+
+//        $("#imageuploader").uploadFile({
+//            url:"<?php echo HTTP_BASE_URL."campaigns/upload"?>",
+//            multiple:false,
+//            autoSubmit:true,
+//            showDelete: true,
+//            showAbort: false,
+//            showDone: false,
+//            showDownload: true,
+//            maxFileCount:1,
+//            onSubmit:function() {
+//                $('.ajax-upload-dragdrop').hide();
+//            },
+//            downloadCallback: function (data, pd) {
+//                 window.open("<?php echo HTTP_BASE_URL."uploads/".$this->session->userdata('id').'/'?>"+data.data.file_name,'_blank');
+//            },
+//            deleteCallback: function() {
+//                $('.ajax-upload-dragdrop').show();
+//            },
+//            onSuccess: function(files,data) {
+//                var postData = JSON.stringify(data);
+//                $('#file-data').val(postData);
+//            }
+//	});
+//        $("#videouploader").uploadFile({
+//            url:"<?php echo HTTP_BASE_URL."campaigns/upload"?>",
+//            multiple:false,
+//            autoSubmit:true,
+//            showDelete: true,
+//            showDone: false,
+//            showDownload: true,
+//            maxFileCount:1,
+//            onSubmit:function() {
+//                $('.ajax-upload-dragdrop').hide();
+//            },
+//            downloadCallback: function (data, pd) {
+//                 window.open("<?php echo HTTP_BASE_URL."uploads/"?>"+data.data.file_name,'_blank');
+//            },
+//            deleteCallback: function() {
+//                $('.ajax-upload-dragdrop').show();
+//            }
+//	});
+//        $('.ajax-file-upload-abort').click(function(){
+//            $('.ajax-upload-dragdrop').show();
+//        });
     });
 </script>
 <a href="#" id="tmpLink"></a>

@@ -24,7 +24,7 @@
 $ark_root  = "http://".$_SERVER['HTTP_HOST'];
 $ark_root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 $config['base_url']	= $ark_root;
-define("HTTP_BASE_SECURE_URL",str_replace('http:','https:',$config['base_url']));
+define("HTTP_BASE_SECURE_URL",str_replace('http:','http:',$config['base_url']));
 define('HTTP_CSS_PATH', $config['base_url'].'assets/css/');
 define('HTTP_CSS_SECURE_PATH', HTTP_BASE_SECURE_URL.'assets/css/');
 define('HTTP_IMAGES_PATH', $config['base_url'].'assets/images/');

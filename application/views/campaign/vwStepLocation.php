@@ -195,7 +195,7 @@
                             </div>
                             <div id="location_select_country_div" class="location_select_country_div location_select_div"><input type="hidden" name='country' value='' id="country_input"/></div>
                         </div>
-                    </div>'
+                    </div>
                 </div>
                     <div class="col-sm-6">
                         <div id="campaign-location-map" style="height:300px; background-color:#ccc; <?php if((!isset($campaign['address']) || !$campaign['address']) && isset($campaign['location_id'])):?> display:none; <?php endif;?>" class="location_select_address_div location_select_div form-map"></div>
@@ -214,7 +214,7 @@
     <?php endif;?>
 </div>
 <?php $this->load->view('campaign/vwStepTarget',array('campaign'=>$campaign)); ?>
-
+<?php // echo "<pre>"; print_r($campaign); exit; ?>
 <script type="text/javascript">
 var rendererMap = function(position) {
     <?php if(isset($campaign['address']) && $campaign['address']): ?>
@@ -246,7 +246,8 @@ $(function(){
         $("#state_input_value").trigger("geocode");
     });
 });
-<?php if(isset($campaign['address']) && $campaign['address']): ?>
+<?php if((isset($campaign['address']) && $campaign['address']) || !isset($campaign['location_id'])):?>
+
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(rendererMap);
 } else {
@@ -277,7 +278,7 @@ var addZipCode = function(zip) {
     var newZipList = zip.split(",");
     $.each(newZipList,function(key, value){
         zipList.push(value);
-        $('#campaign-location-zip').append('<nobr id="'+value+'"><div style="margin-right:5px" class="label label-info">'+value+' &nbsp;<span style="cursor:pointer" class="fa fa-times" onclick="removeZip('+value+');"></span></div></nobr>');
+        $('#campaign-location-zip').append('<span id="'+value+'"><div style="margin-right:5px; display:inline-block;" class="label label-info">'+value+' &nbsp;<span style="cursor:pointer" class="fa fa-times" onclick="removeZip('+value+');"></span></div></span>');
 
     });
     zipList = $.grep(zipList,function(n){ return(n) });
@@ -288,17 +289,23 @@ var addZipCode = function(zip) {
     addZipCode('<?php echo $campaign['location_zip']?>');
 <?php endif;?>
 var locationSelect = function(event) {
-       
+    var el;
+    if(event) {
+        el = $(event.currentTarget);
+        if(!$(event.currentTarget).is('i')) {
+            el = $("#"+el.attr('for'));
+        }
+    } else {
+        el = $('#campaign-schedule-form i .fa-check-square-o');
+        alert(el.attr('id'));
+        $('#'+el.attr('id')+'_div').show();
+    }
     $('i.location_select').each(function(){
         $(this).removeClass('fa-check-square-o');
         $(this).removeClass('fa-square-o');
         $(this).addClass('fa-square-o');
     })
-    var el = $(event.currentTarget);
-    if(!$(event.currentTarget).is('i')) {
-        el = $("#"+el.attr('for'));
-    }
-
+   
     el.removeClass('fa-square-o');
     el.addClass('fa-check-square-o');
     

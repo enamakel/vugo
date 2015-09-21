@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_IMAGES_PATH:HTTP_IMAGES_SECURE_PATH); ?>favicon.png">
-    <title>ViewsWagen official site</title>
+    <title>Vugo official site</title>
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>lib.min.css' />
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>style.min.css' />
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>tooltipster.css' />
@@ -23,11 +23,11 @@
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>bootstrap.min.js"></script>
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.tooltipster.min.js"></script>
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.validate.min.js"></script>
-	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>additional-methods.min.js"></script>
 	<script type="text/javascript">
         $(document).ready(function() {
             $('.fa-info-circle').tooltipster();
         });
+     
         </script>
 </head>
 <body class="bg">

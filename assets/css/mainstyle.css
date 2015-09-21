@@ -4,17 +4,50 @@
 .vw-hide{display:none !important;}
 .vw-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}
 .vw-hide-add-active,.vw-hide-remove{display:block!important;}
-.error {
+input.error,select.error,textarea.error {
     background: none repeat scroll 0 0 #fff;
     border: 2px solid red;
-    height: auto !important;
-    margin: 10px;
-    padding: 5px 5px 5px 30px;
-    width: auto;
+}
+input.error:focus,select.error:focus,textarea.error:focus {
+    background: none repeat scroll 0 0 #fff;
+    border: 2px solid red;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(255, 0, 0, 0.6);
+}
+
+label.error {
+    color: red;
+    font-style: italic;
+    font-weight: 200;
 }
 .dashboard {
     background: none no-repeat no-repeat scroll center center / cover  rgba(0, 0, 0, 0) !important;
 }
 .ng-hide {
     display: none;
+}
+.date {
+    white-space: nowrap;
+}
+.date img {
+    height: 31px;
+    margin-top: -2px;
+}
+.navbar-default {
+    background-color: #000;
+}
+.navbar-default .navbar-nav > li > a {
+    background-color: #eee;
+    color: #000;
+}
+.navbar-default .navbar-nav > li > a:hover {
+    background-color: #dedede;
+    color: #000;
+}
+.navbar-default .navbar-nav > .active > a {
+    background-color: #f16234;
+    color: #fff;
+}
+.navbar-default .navbar-nav > .active > a:hover {
+    background-color: #e04f26;
+    color: #fff;
 }
