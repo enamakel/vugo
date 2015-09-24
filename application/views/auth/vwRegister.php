@@ -17,7 +17,7 @@ $this->load->view('vwHeader_vw');
                         <h4 class="vw-scope" translate="$register_title">Register New Account</h4>
                     </div>
                     <form id="new-user-vw" action="<?php echo HTTP_BASE_SECURE_URL.'auth/register' ?>" method="post" enctype="multipart/form-data">
-                        <p class="text-muted vw-scope" translate="$register_description">You just one step before you can start advertising your company thru the Viewswagen advertisement system.</p>
+                        <p class="text-muted vw-scope" translate="$register_description">You just one step before you can start advertising your company thru the Vugo advertisement system.</p>
                         <div class="form-group required">
                             <label for="username">
                                 <span class="inline-label vw-scope" translate="$username_placeholder">Username, e.g. your email</span>
@@ -65,7 +65,7 @@ $this->load->view('vwHeader_vw');
                             <div class="pull-right text-muted vw-scope" translate="$country_phone_extension" translate-values="{phoneCode:countryPhoneCodes[country]}">/ Phone Extension: +
                             </div>
                             <label class="inline-label vw-scope" for="country" translate="$country">Country</label>
-                            <i class="fa fa-info-circle text-muted vw-scope" title="For now, Viewswagen available only in some countries. "></i>
+                            <i class="fa fa-info-circle text-muted vw-scope" title="For now, Vugo available only in some countries. "></i>
                             <div style="height:39px;overflow-y:hidden">
                                 <div style="" class="form-control vw-hide"><i class="fa fa-spin fa-spinner"></i>&nbsp;<span class="vw-scope" translate="$loading">Loading...</span>
                                 </div>
@@ -98,7 +98,7 @@ $this->load->view('vwHeader_vw');
                             <div class="col-md-7">
                                 <div class="form-group">
                                     <label class="inline-label vw-binding" for="phone_number">Phone Number</label>
-                                    <i class="fa fa-info-circle text-muted vw-scope" title="We normally plan to communicate with you via email; however, in some cases faster way to notify you might be pretty important. Please don't forget to provide your extension at the same time with your phone number. It enables some SMS notifications from Viewswagen"></i>
+                                    <i class="fa fa-info-circle text-muted vw-scope" title="We normally plan to communicate with you via email; however, in some cases faster way to notify you might be pretty important. Please don't forget to provide your extension at the same time with your phone number. It enables some SMS notifications from Vugo"></i>
                                     <input value="<?php echo ((isset($phone_number))?$phone_number:'')?>" class="form-control" placeholder="Phone Number" name="phone_number" maxlength="14" type="text">
                                 </div>
                             </div>

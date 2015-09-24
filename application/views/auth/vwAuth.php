@@ -13,7 +13,7 @@ $this->load->view('vwHeader_vw');
         <div class="col-md-4 col-md-offset-4 text-center">
             <div class="panel panel-default ng-scope">
                 <div class="panel-body">
-                    <h4 class="block-center">Viewswagen Advertiser Portal</h4>
+                    <h4 class="block-center">Vugo Advertiser Portal</h4>
                     <div class="text-center form-group">
                         <img src="<?php echo HTTP_IMAGES_PATH ?>logo-icon.png">
                     </div>

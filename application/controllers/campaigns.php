@@ -12,6 +12,8 @@ class Campaigns extends CI_Controller {
         }
         $data = array();
         $data['first_name'] = $this->session->userdata('first_name');
+     
+        $data['activetab'] = 'campaigns';
         $this->_data = $data;
         $this->load->library('form_validation');
         $this->load->model('campaign/campaign','campaign');
@@ -53,7 +55,11 @@ class Campaigns extends CI_Controller {
         if(!is_dir( "uploads/".$this->session->userdata('id').'/')) {
             mkdir( "uploads/".$this->session->userdata('id').'/');
         }
-        $config['allowed_types'] = "jpg|jpeg|png|gif|flv|mp4|wmv|avi";
+        if($_POST['type']=='image') {
+            $config['allowed_types'] = "jpg|jpeg|png|gif";
+        } else {
+            $config['allowed_types'] = "flv|mp4|wmv|avi";
+        }
         $config['max_size'] = 1024*100;
         $config['max_width'] = 8000;
         $config['max_height'] = 6000;
@@ -69,18 +75,16 @@ class Campaigns extends CI_Controller {
         return $this->output
             ->set_content_type('application/json')
             ->set_status_header(200)
-            ->set_output(json_encode(array(
-                    'data'=>$data
-            )));
+            ->set_output(json_encode($data));
     }
     
     public function save_main() {
         $campaignData = $_POST;
         $this->form_validation->set_rules('name', 'Campaign Name', 'required');
         $this->form_validation->set_rules('landing_url', 'Landing page', 'required');
-        $this->form_validation->set_rules('budget', 'Campaign budget', 'required|less_than[50000]|greater_than[1000]');
-        $this->form_validation->set_rules('monthly_cap', 'Campaign budget', 'required|less_than[50000]|greater_than[0]');
-        $this->form_validation->set_rules('daily_cap', 'Daily spending cap', 'required|less_than[50000]|greater_than[0]');
+        $this->form_validation->set_rules('budget', 'Campaign budget', 'required|less_than[50001]|greater_than[1000]');
+        $this->form_validation->set_rules('monthly_cap', 'Campaign budget', 'required|less_than[50001]|greater_than[0]');
+        $this->form_validation->set_rules('daily_cap', 'Daily spending cap', 'required|less_than[50001]|greater_than[0]');
         if(isset($campaignData['frequency']) && $campaignData['frequency']!='custom') {
             $this->form_validation->set_rules('frequency', 'Frequency cap per trip', 'required|less_than[100]');
         } else {
@@ -91,7 +95,9 @@ class Campaigns extends CI_Controller {
         if ($this->form_validation->run() != FALSE) {
             $this->_data = $this->campaign->setCampaign($campaignData)->save();
         } else {
-            return $this->load->view('campaign/vwStepMain', $campaignData);
+            $campaignData['errors'] = $this->form_validation->error_string();
+            $campaignData['campaign_error'] = true;
+            return $this->load->view('campaign/vwStepMain', array('data'=>$this->_data,'campaign'=>$campaignData,'bradcrumbs'=>array('campaigns'=>'Campaigns','Campaign Details')));
         }
         
         redirect('campaigns/campaign/'.$this->_data['campaign_id']);
@@ -100,6 +106,12 @@ class Campaigns extends CI_Controller {
     
     public function save_schedule() {
         $campaignData = $_POST;
+        if(!$campaignData['date_start']) {
+            $campaignData['date_start'] = '00/00/0000';
+        }
+        if(!$campaignData['date_end']) {
+            $campaignData['date_end'] = '00/00/0000';
+        }
         $this->form_validation->set_rules('date_start', 'Campaign Date Starts', 'required');
         $this->form_validation->set_rules('date_end', 'Campaign Date Ends', 'required');
         $this->form_validation->set_rules('week_days', 'Campaign Week Days', 'required');
@@ -109,7 +121,10 @@ class Campaigns extends CI_Controller {
         if ($this->form_validation->run() != FALSE) {
             $this->_data = $this->campaign->setSchedule($campaignData)->saveSchedule();
         } else {
-            return $this->load->view('campaign/vwStepMain', $campaignData);
+            $campaignData = array_merge($this->campaign->getCampaign($campaignData['campaign_id']),$campaignData);
+            $campaignData['errors'] = $this->form_validation->error_string();
+            $campaignData['schedule_error'] = true;
+            return $this->load->view('campaign/vwStepMain', array('data'=>$this->_data,'campaign'=>$campaignData,'bradcrumbs'=>array('campaigns'=>'Campaigns','Campaign Details')));
         }
         
         redirect('campaigns/campaign/'.$this->_data['campaign_id']);

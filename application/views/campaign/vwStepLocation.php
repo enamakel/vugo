@@ -3,20 +3,20 @@
 <div class="panel panel-default ng-scope">
     <a name="location"></a>
     <div class="panel-heading">
-        <h4 class="panel-title">
-            <i class="fa fa-location-arrow"></i>&nbsp;Location
-        </h4>
+        <button id="button-edit-campaign-location" class="pull-right btn button-edit btn-default <?php echo (isset($campaign['location_id'])?'':'ng-hide') ?>">Edit</button>
+        <h4 class="panel-title"><i class="fa fa-location-arrow"></i>&nbsp;Location</h4>
         <div class="small text-muted <?php if(!isset($campaign['schedule_id']) || !$campaign['schedule_id']):?>ng-hide<?php endif;?>">Please specify location where you would want to focus your campaign.<br>For multiple locations we advise you to have different campaigns.</div>
     </div>
     <?php if(isset($campaign['schedule_id']) && $campaign['schedule_id']):?>
-    <form id="campaign-schedule-form" action="<?php echo HTTP_BASE_URL."campaigns/save_location"?>" method="POST">
+    <div id="campaign-location-preview" class="campaign_preview <?php echo (isset($campaign['location_id'])?'':'ng-hide') ?>"></div>
+    <form id="campaign-location-form" class='<?php echo (isset($campaign['location_id'])?'ng-hide':'') ?>' action="<?php echo HTTP_BASE_URL."campaigns/save_location"?>" method="POST">
         <input type="hidden" name="campaign_id" value="<?php echo (isset($campaign['campaign_id'])?$campaign['campaign_id']:'') ?>"
         <div class="slide-animation ">
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <div class="">
+                        <div class="address-group">
                             <div style="cursor:pointer">
                                 <i id="location_select_address" class="location_select fa <?php if((isset($campaign['address']) && $campaign['address'])|| !isset($campaign['location_id'])):?>fa-check-square-o<?php else:?>fa-square-o<?php endif;?>"></i><span class="location_select" for="location_select_address">&nbsp;Advertisement specific for the address</span>
                             </div>
@@ -24,7 +24,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            Address
+                                            <b>Address</b>
                                             <div>
                                                 <div>
                                                     <input value="<?php if(isset($campaign['address']) && $campaign['address']): echo $campaign['address']; endif;?>" id="address_input" type="text" placeholder="Street address, City, Region, Country, ..."  class="form-control" name="address">
@@ -37,7 +37,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <div>Radius (in miles)</div>
+                                            <b>Radius (in miles)</b>
                                             <div>
                                                 <select class="form-control" id="radius" name="radius">
                                                 <option value="" class="">Select</option>
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="">
+                        <div class="address-group">
                             <div style="cursor:pointer" class="">
                                 <i id="location_select_zip" class="location_select fa <?php if(isset($campaign['location_zip']) && $campaign['location_zip']):?>fa-check-square-o<?php else:?>fa-square-o<?php endif;?>"></i><span class="location_select" for="location_select_zip">&nbsp;Show within postal codes</span>
                             </div>
@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="">
+                        <div class="address-group">
                             <div style="cursor:pointer">
                                 <i id="location_select_state" class="location_select fa <?php if(isset($campaign['state']) && $campaign['state']):?>fa-check-square-o<?php else:?>fa-square-o<?php endif;?>"></i><span class="location_select" for="location_select_state">&nbsp;Show within the state</span>
                             </div>
@@ -120,7 +120,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <div class="form-group">
-                                            State
+                                            <b>State</b>
                                             <div>
                                                 <div>
                                                     <input type="hidden" id="state_input_value"/>
@@ -189,13 +189,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="">
+                        <div class="address-group">
                             <div style="cursor:pointer">
                                 <i id="location_select_country" class="location_select fa <?php if(isset($campaign['country']) && $campaign['country']):?>fa-check-square-o<?php else:?>fa-square-o<?php endif;?>"></i><span class="location_select" for="location_select_country">&nbsp;Show within country</span>
                             </div>
-                            <div id="location_select_country_div" class="location_select_country_div location_select_div"><input type="hidden" name='country' value='' id="country_input"/></div>
+                            <div class="form-group">
+                                <b style='display:none'>Country</b>
+                                 <div>
+                                    <div id="location_select_country_div" class="location_select_country_div location_select_div">
+                                        <input type="hidden" name='country' value='Usa' id="country_input"/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>'
+                    </div>
                 </div>
                     <div class="col-sm-6">
                         <div id="campaign-location-map" style="height:300px; background-color:#ccc; <?php if((!isset($campaign['address']) || !$campaign['address']) && isset($campaign['location_id'])):?> display:none; <?php endif;?>" class="location_select_address_div location_select_div form-map"></div>
@@ -214,7 +221,7 @@
     <?php endif;?>
 </div>
 <?php $this->load->view('campaign/vwStepTarget',array('campaign'=>$campaign)); ?>
-
+<?php // echo "<pre>"; print_r($campaign); exit; ?>
 <script type="text/javascript">
 var rendererMap = function(position) {
     <?php if(isset($campaign['address']) && $campaign['address']): ?>
@@ -246,7 +253,8 @@ $(function(){
         $("#state_input_value").trigger("geocode");
     });
 });
-<?php if(isset($campaign['address']) && $campaign['address']): ?>
+<?php if((isset($campaign['address']) && $campaign['address']) || !isset($campaign['location_id'])):?>
+
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(rendererMap);
 } else {
@@ -277,7 +285,7 @@ var addZipCode = function(zip) {
     var newZipList = zip.split(",");
     $.each(newZipList,function(key, value){
         zipList.push(value);
-        $('#campaign-location-zip').append('<nobr id="'+value+'"><div style="margin-right:5px" class="label label-info">'+value+' &nbsp;<span style="cursor:pointer" class="fa fa-times" onclick="removeZip('+value+');"></span></div></nobr>');
+        $('#campaign-location-zip').append('<span id="'+value+'"><div style="margin-right:5px; display:inline-block;" class="label label-info">'+value+' &nbsp;<span style="cursor:pointer" class="fa fa-times" onclick="removeZip('+value+');"></span></div></span>');
 
     });
     zipList = $.grep(zipList,function(n){ return(n) });
@@ -288,17 +296,23 @@ var addZipCode = function(zip) {
     addZipCode('<?php echo $campaign['location_zip']?>');
 <?php endif;?>
 var locationSelect = function(event) {
-       
+    var el;
+    if(event) {
+        el = $(event.currentTarget);
+        if(!$(event.currentTarget).is('i')) {
+            el = $("#"+el.attr('for'));
+        }
+    } else {
+        el = $('#campaign-schedule-form i .fa-check-square-o');
+        alert(el.attr('id'));
+        $('#'+el.attr('id')+'_div').show();
+    }
     $('i.location_select').each(function(){
         $(this).removeClass('fa-check-square-o');
         $(this).removeClass('fa-square-o');
         $(this).addClass('fa-square-o');
     })
-    var el = $(event.currentTarget);
-    if(!$(event.currentTarget).is('i')) {
-        el = $("#"+el.attr('for'));
-    }
-
+   
     el.removeClass('fa-square-o');
     el.addClass('fa-check-square-o');
     
