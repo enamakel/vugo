@@ -11,13 +11,24 @@
             defaultDate: "",
             changeMonth: true,
             numberOfMonths: 1,
+            buttonImageOnly: true,
+            showOn: "both",
+            buttonImage: "<?php echo HTTP_IMAGES_PATH; ?>calendar.png",
+            buttonText: "Select date",
             onClose: function( selectedDate ) {
               $( "#datetimepicker7" ).datepicker( "option", "minDate", selectedDate );
             }
         });
+        $('#trigger').click(function() {
+            $('#dp').datepicker('show');
+        });
         $( "#datetimepicker7" ).datepicker({
             defaultDate: "",
             changeMonth: true,
+            showOn: "both",
+            buttonImageOnly: true,
+            buttonImage: "<?php echo HTTP_IMAGES_PATH; ?>calendar.png",
+            buttonText: "Select date",
             numberOfMonths: 1,
             onClose: function( selectedDate ) {
               $( "#datetimepicker6" ).datepicker( "option", "maxDate", selectedDate );
@@ -28,16 +39,17 @@
 <a name="schedule"></a>
 <div class="panel panel-default ng-scope">
     <div class="panel-heading">
-        <h5 class="panel-title">
-        <i class="fa fa-calendar">
-        </i>&nbsp;Schedule</h5>
+        <button id="button-edit-campaign-schedule" class="pull-right btn button-edit btn-default <?php echo (isset($campaign['schedule_id'])?'':'ng-hide') ?>">Edit</button>
+        <h4 class="panel-title"><i class="fa fa-calendar"></i>&nbsp;Schedule</h4>
         <div  class="small text-muted <?php if(!isset($campaign) || !isset($campaign['campaign_id'])):?>ng-hide<?php endif;?>">Please choose schedule for your campaign</div>
     </div>
     <?php if(isset($campaign) && isset($campaign['campaign_id'])):?>
     <div class="slide-animation">
-        <form id="campaign-schedule-form" action="<?php echo HTTP_BASE_URL."campaigns/save_schedule"?>" method="POST">
+        <div id="campaign-schedule-preview" class="campaign_preview <?php echo (!isset($campaign['schedule_error']) && isset($campaign['schedule_id'])?'ng-hide':'') ?>"></div>
+        <form id="campaign-schedule-form" class='<?php echo (!isset($campaign['schedule_error']) && isset($campaign['schedule_id'])?'ng-hide':'') ?>' action="<?php echo HTTP_BASE_URL."campaigns/save_schedule"?>" method="POST">
             <input type="hidden" name="campaign_id" value="<?php echo (isset($campaign['campaign_id'])?$campaign['campaign_id']:'') ?>"
             <div  class="panel-body ng-pristine ng-valid ng-valid-required">
+                <?php //echo "<pre>"; print_r($campaign); exit; ?>
                 <div class="row container">
                     <div class="col-sm-6">
                         <div class="form-group">
@@ -54,10 +66,7 @@
                         <div class='col-md-5 campaign-start-div' id="campaign-start-custom-div" style="<?php if(isset($campaign['date_start']) && $campaign['date_start']=="00/00/0000"):?>display: none;<?php endif;?>">
                             <div class="form-group">
                                 <div class='input-group date'>
-                                    <input type='text'  id='datetimepicker6' value='<?php echo (isset($campaign['date_start'])?$campaign['date_start']:"00/00/0000")?>' name="date_start" />
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
+                                    <input type='text' class='campaign-start-custom' id='datetimepicker6' value='<?php echo (isset($campaign['date_start'])?$campaign['date_start']:"00/00/0000")?>' name="date_start" />
                                 </div>
                             </div>
                         </div>
@@ -67,7 +76,7 @@
                             <b>Campaign ends...</b>
                             <div>
                                 <div  style="cursor:pointer">
-                                    <i id="campaign-end-now" class="fa campaign-end <?php if(isset($campaign['date_end']) && $campaign['date_end']=="00/00/0000"):?>fa-check-square-o<?php else:?>fa-square-o<?php endif;?>"></i><span class="campaign-end" for="campaign-end-now">&nbsp;as soon as possible (once approved)</span>
+                                    <i id="campaign-end-now" class="fa campaign-end <?php if(isset($campaign['date_end']) && $campaign['date_end']=="00/00/0000"):?>fa-check-square-o<?php else:?>fa-square-o<?php endif;?>"></i><span class="campaign-end" for="campaign-end-now">&nbsp;once balace is 0</span>
                                 </div>
                                 <div style="cursor:pointer">
                                     <i id="campaign-end-custom" class="fa campaign-end <?php if(isset($campaign['date_end']) && $campaign['date_end']!="00/00/0000"):?>fa-check-square-o<?php else:?>fa-square-o<?php endif;?>"></i><span class="campaign-end" for="campaign-end-custom">&nbsp;on specific date</span>
@@ -77,17 +86,14 @@
                         <div class='col-md-5 campaign-end-div' id="campaign-end-custom-div" style="<?php if(isset($campaign['date_end']) && $campaign['date_end']=="00/00/0000"):?>display: none;<?php endif;?>">
                             <div class="form-group">
                                 <div class='input-group date'>
-                                    <input type='text' id='datetimepicker7' name="date_end" value="<?php echo (isset($campaign['date_end'])?$campaign['date_end']:"00/00/0000")?>"/>
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
+                                    <input class='campaign-end-custom' type='text' id='datetimepicker7' name="date_end" value="<?php echo (isset($campaign['date_end'])?$campaign['date_end']:"00/00/0000")?>"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             <div class="row container">
-                <div class="col-md-6">
+                <div class="col-md-6 form-group">
                     <b>Days</b>
                     <div>
                         <p class="small text-muted">Please specify on day range for campaign schedule</p>
@@ -110,16 +116,18 @@
                     <b>Time</b>
                     <p class="small text-muted">Please specify on time range for campaign schedule</p>
                     <div class="form-group row">
-                        <div class="col-sm-6">From
+                        <div class="col-sm-6 form-group">
+                            <b>From</b>
                             <div class="">
-                                <div class="form-group">
+                                <div class="slide-animation">
                                     <input type="text" name="schedule_from" class="time start form-control" value="<?php echo (isset($campaign['schedule_from'])?$campaign['schedule_from']:"")?>"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">Until
+                        <div class="col-sm-6 form-group">
+                            <b>Until</b>
                             <div class="">
-                                <div class="form-group">
+                                <div class="slide-animation">
                                     <input type="text" name="schedule_until" class="time end form-control" value="<?php echo (isset($campaign['schedule_until'])?$campaign['schedule_until']:"")?>"/>
                                 </div>
                             </div>
@@ -147,22 +155,31 @@
             $(this).removeClass('fa-square-o');
             $(this).addClass('fa-square-o');
         });
+        var existDate = '<?php echo isset($campaign['date_start']) && $campaign['date_start']!='00/00/0000'?$campaign['date_start']:""?>';
+            
         if(event) {
             var el = $(event.currentTarget);
             if(!$(event.currentTarget).is('i')) {
                 el = $("#"+el.attr('for'));
             }
         } else {
-            var el = $('#campaign-start-now')
+            var el = $('#campaign-start-now');
+            if(existDate) {
+                el = $('#campaign-start-custom');
+            }
         }
-        
-       
         el.removeClass('fa-square-o');
         el.addClass('fa-check-square-o');
         $('.campaign-start-div').hide();
         $('#'+el.attr('id')+'-div').show();
         if(el.attr('id')=='campaign-start-now') {
+            $('#datetimepicker6').val('00/00/0000');
+        }
+        if(el.attr('id')=='campaign-start-custom') {
             $('#datetimepicker6').val('<?php echo date('m/d/Y')?>');
+            if(existDate!='') {
+                $('#datetimepicker6').val(existDate);
+            }
         }
     };
     var campaignWeekDays = function(event) {
@@ -195,14 +212,19 @@
             $(this).removeClass('fa-check-square-o');
             $(this).removeClass('fa-square-o');
             $(this).addClass('fa-square-o');
-        })
+        });
+        var existDate = '<?php echo isset($campaign['date_end']) && $campaign['date_end']!='00/00/0000'?$campaign['date_end']:""?>';
+           
         if(event) {
             var el = $(event.currentTarget);
             if(!$(event.currentTarget).is('i')) {
                 el = $("#"+el.attr('for'));
             }
         } else {
-            var el = $('#campaign-end-now')
+            var el = $('#campaign-end-now');
+            if(existDate) {
+                el = $('#campaign-end-custom');
+            }
         }
        
         el.removeClass('fa-square-o');
@@ -210,7 +232,13 @@
         $('.campaign-end-div').hide();
         $('#'+el.attr('id')+'-div').show();
         if(el.attr('id')=='campaign-end-now') {
+            $('#datetimepicker7').val('00/00/0000');
+        }
+        if(el.attr('id')=='campaign-end-custom') {
             $('#datetimepicker7').val('<?php echo date('m/d/Y')?>');
+             if(existDate!='') {
+                $('#datetimepicker7').val(existDate);
+            }
         }
     };
     
@@ -226,54 +254,42 @@
     $('.week_days').click(campaignWeekDays);
     campaignStart();
     campaignEnd();
-    
-    $('#campaign-schedule-form').bootstrapValidator({
-            framework: 'bootstrap',
-            icon: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
+
+    $('#campaign-schedule-form').validate({
+        ignore: ":disabled, :hidden",
+        rules: {
+            date_start: {
+                required:true,
+                date:'MM/DD/YYYY'
             },
-            excluded: ':disabled, :hidden',
-            fields: {
-                date_start: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campaign Date Starts is required'
-                        },
-                        date: {
-                            format: 'MM/DD/YYYY',
-                            message: 'The value is not a valid date'
-                        }
-                    }
-                },
-                date_end: {
-                    validators: {
-                        notEmpty: {
-                            message: ' Campaign Date Ends is required'
-                        },
-                        date: {
-                            format: 'MM/DD/YYYY',
-                            message: 'The value is not a valid date'
-                        }
-                    }
-                },
-                schedule_from: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campaign Schedule From Time is required'
-                        }
-                    }
-                },
-                schedule_until: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Campaign Schedule Until Time is required'
-                        }
-                    }
-                }
+            date_end: {
+                required:true,
+                date:'MM/DD/YYYY'
+            },
+            schedule_from: {
+                required:true
+            },
+            schedule_until: {
+                required:true
             }
-        }); 
+        },
+        messages: {
+            date_start: {
+                required: "Campaign Date Starts is required",
+                date: 'The value is not a valid date'
+            },
+            date_end: {
+                required: "Campaign Date Ends is required",    
+                date: 'The value is not a valid date'
+            },
+            schedule_from: {
+                required: "Campaign Schedule From Time is required"
+            },
+            schedule_until: {
+                required: "Campaign Schedule Until Time is required"
+            }
+        }
+    });
         $('button').each(function(){
             $(this).prop("disabled", false);
         });

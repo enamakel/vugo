@@ -7,11 +7,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_IMAGES_PATH:HTTP_IMAGES_SECURE_PATH); ?>favicon.png">
-    <title>ViewsWagen official site</title>
+    <title>Vugo official site</title>
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>lib.min.css' />
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>style.min.css' />
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>tooltipster.css' />
-    <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>bootstrapValidator.min.css' />
         <!-- Bootstrap core CSS -->
     <link href="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>mainstyle.css" rel="stylesheet">
     <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.7.1/modernizr.min.js"></script>
@@ -23,11 +22,12 @@
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery-1.10.2.js"></script>
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>bootstrap.min.js"></script>
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.tooltipster.min.js"></script>
-	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>bootstrapValidator.min.js"></script>
+	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.validate.min.js"></script>
 	<script type="text/javascript">
         $(document).ready(function() {
             $('.fa-info-circle').tooltipster();
         });
+     
         </script>
 </head>
 <body class="bg">

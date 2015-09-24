@@ -120,6 +120,7 @@ class Campaign extends CI_Model
         try {
             $data['campaign'] = $data[$this->_entity_id];
             $data['target'] = serialize($data['target']);
+           
             unset($data[$this->_entity_id]);
             $this->db->from('ci_campaigns_target');
             $this->db->where('campaign', $data['campaign']);
@@ -138,6 +139,7 @@ class Campaign extends CI_Model
         } catch (Exception $e) {
             $result = $e->getMessage();
         }
+     //    echo "<pre>"; print_r($result); exit;
         return $result;
     }
     
@@ -175,12 +177,15 @@ class Campaign extends CI_Model
         }
         $data['owner_id'] = $this->session->userdata('id');
         $filePost = $data['file_data'];
+       
         unset($data['file_data']);
+        unset($data['file']);
         if($filePost) {
             $filePost = json_decode($filePost);
-            $filedata['real_path']      = $filePost->data->full_path;
-            $filedata['absolute_url']   = HTTP_BASE_URL."uploads/".$this->session->userdata('id').'/'.$filePost->data->file_name;
+            $filedata['real_path']      = $filePost->_response->result->full_path;
+            $filedata['absolute_url']   = HTTP_BASE_URL."uploads/".$this->session->userdata('id').'/'.$filePost->_response->result->file_name;
         }
+           
         try {
             if(!$data[$this->_entity_id]) {
                 $this->db->insert('ci_campaigns', $data);
