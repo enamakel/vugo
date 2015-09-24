@@ -4,6 +4,7 @@ $this->load->helper('url');
 ?>
 <link href="<?php echo HTTP_CSS_PATH; ?>jquery.fileupload.css" rel="stylesheet">
 <script src="<?php echo HTTP_JS_PATH; ?>jquery.form.js"></script>
+<script src="<?php echo HTTP_JS_PATH; ?>campaign.js"></script>
 
 <script src="<?php echo HTTP_JS_PATH; ?>jquery-ui.min.js"></script>
 <script src="<?php echo HTTP_JS_PATH; ?>jquery.ui.widget.js"></script>
@@ -16,7 +17,7 @@ $this->load->helper('url');
                         <div style="background-color:#000;max-height:300px;color:#fff" class="text-center">
                             <?php if($campaign['type']=='image'): ?>
                             <div class="">
-                                <?php if(isset($campaign['real_path']) && file_exists($campaign['real_path'])): ?>
+                                <?php  if(isset($campaign['real_path']) && file_exists($campaign['real_path'])): ?>
                                     <img src="<?php echo $campaign['absolute_url']?>" style="max-height: 300px">
                                 <?php else:?>
                                      <div class="panel-body text-center">
@@ -52,14 +53,15 @@ $this->load->helper('url');
                 <?php endif;?>
                 <div class="panel panel-default ng-scope">
                     <div class="panel-heading">
-                        <button class="pull-right btn btn-default ng-hide">Edit</button>
+                        <button id="button-edit-campaign-main" class="pull-right btn btn-default button-edit <?php echo (isset($campaign['campaign_id'])?'':'ng-hide') ?>">Edit</button>
                         <h4 class="panel-title"><i class="fa fa-cog"></i>&nbsp;Configuration</h4>
                         <div class="small text-muted">
                             Please configure parameters of your campaign.
                         </div>
                     </div>
-                    <form id="campaign-main-form" class="form" action="<?php echo HTTP_BASE_URL."campaigns/save_main"?>" method="post" enctype="ultipart/form-data">
-                        <input type="hidden" name="campaign_id" value="<?php echo (isset($campaign['campaign_id'])?$campaign['campaign_id']:'') ?>"
+                    <div id="campaign-main-preview" class="campaign_preview <?php echo (isset($campaign['campaign_id'])?'':'ng-hide') ?>"></div>
+                    <form id="campaign-main-form" class="form <?php echo (!isset($campaign['campaign_error']) && isset($campaign['campaign_id'])?'ng-hide':'') ?>" action="<?php echo HTTP_BASE_URL."campaigns/save_main"?>" method="post" enctype="ultipart/form-data">
+                        <input type="hidden" name="campaign_id" value="<?php echo (!isset($campaign['campaign_error']) && isset($campaign['campaign_id'])?$campaign['campaign_id']:'') ?>"
                         <div class="slide-animation">
                             <div ng-form="configurationForm" class="panel-body">
                                 <div class="row">
@@ -135,7 +137,7 @@ $this->load->helper('url');
                                             <input type="hidden" value="" name="file_data" id="file-data"/>
                                         </div>
                                         <?php if(isset($campaign['campaign_id']) && $campaign['campaign_id']): ?>
-                                        <div class="form-group">
+                                        <div class="form-group" id="approval_status_div">
                                             <b>Approval Status</b>
                                             <div class="">
                                              <?php echo (isset($campaign['status'])?campaign_status($campaign['status']):'Awaiting approval') ?>
@@ -143,7 +145,7 @@ $this->load->helper('url');
                                                     <i class="fa fa-warning"></i>
                                                     &nbsp;If you would change campaign's image/video or landing page url, campaign will be send for pre-approval process again.
                                                 </div>
-                                                <button onclick="showFileUpload();" class="btn btn-primary">Edit Anyway</button>
+                                                <button onclick="showFileUpload();" type="button" class="btn btn-primary">Edit Anyway</button>
                                             </div>
                                         </div>
                                         <?php endif;?>
@@ -200,7 +202,6 @@ $this->load->helper('url');
                 </div>
             <?php $this->load->view('campaign/vwStepSchedule',array('campaign'=>isset($campaign)?$campaign:array())); ?>
 <script type="text/javascript">
-    
     $('#fileupload').fileupload({
         url: '<?php echo site_url('campaigns/upload');?>',
         dataType: 'json',
@@ -217,6 +218,7 @@ $this->load->helper('url');
             $('.progress .progress-bar').css('width', progress + '%'); 
         },
         done: function (e, data) {
+            var seen = [];
             if(data.result.error != undefined){
                 $('#file-format-div').append("<div class='error' id='upload-error'></div>");
                 $('#upload-error').html(data.result.error); // add error
@@ -225,7 +227,16 @@ $this->load->helper('url');
                 $('#upload-error').hide(); // hide error
                 $('.fileinput-button span').html('Select other');
                 $('#file-format-div').append("<div class='file-info' id=file-info><span class='file_name'>File name: "+data.result.orig_name+"</span></div>");
-                $('#file-data').val(JSON.stringify(data));
+                $('#file-data').val(JSON.stringify(data,function(key, val) {
+                        if (val != null && typeof val == "object") {
+                            if (seen.indexOf(val) >= 0) {
+                                return;
+                            }
+                            seen.push(val);
+                        }
+                        return val;
+                    })
+                );
                 if(data.result.image_width) {
                     $('#file-info').append("("+data.result.image_width+"x"+data.result.image_height+")");
                 }
@@ -256,6 +267,7 @@ $this->load->helper('url');
    
     var showFileUpload = function() {
         $('#file-format-div').show('slow');
+        $('#approval_status_div').hide();
     }
     var checkFileType = function(event) {
         if(!$('#file-format-div').is(":visible")) {
@@ -296,7 +308,8 @@ $this->load->helper('url');
                     required:true
                 },
                 landing_url: {
-                    required:true
+                    required:true,
+                    url: true
                 },
                 budget: {
                     required:true,
@@ -320,6 +333,7 @@ $this->load->helper('url');
                 },
                 landing_url: {
                     required: "Landing Page Url is required",    
+                    url: "Please enter a valid URL"
                 },
                 budget: {
                     required: "Budget for Campaign is required",
@@ -338,52 +352,8 @@ $this->load->helper('url');
                 }
             }
         });
-
-//        $("#imageuploader").uploadFile({
-//            url:"<?php echo HTTP_BASE_URL."campaigns/upload"?>",
-//            multiple:false,
-//            autoSubmit:true,
-//            showDelete: true,
-//            showAbort: false,
-//            showDone: false,
-//            showDownload: true,
-//            maxFileCount:1,
-//            onSubmit:function() {
-//                $('.ajax-upload-dragdrop').hide();
-//            },
-//            downloadCallback: function (data, pd) {
-//                 window.open("<?php echo HTTP_BASE_URL."uploads/".$this->session->userdata('id').'/'?>"+data.data.file_name,'_blank');
-//            },
-//            deleteCallback: function() {
-//                $('.ajax-upload-dragdrop').show();
-//            },
-//            onSuccess: function(files,data) {
-//                var postData = JSON.stringify(data);
-//                $('#file-data').val(postData);
-//            }
-//	});
-//        $("#videouploader").uploadFile({
-//            url:"<?php echo HTTP_BASE_URL."campaigns/upload"?>",
-//            multiple:false,
-//            autoSubmit:true,
-//            showDelete: true,
-//            showDone: false,
-//            showDownload: true,
-//            maxFileCount:1,
-//            onSubmit:function() {
-//                $('.ajax-upload-dragdrop').hide();
-//            },
-//            downloadCallback: function (data, pd) {
-//                 window.open("<?php echo HTTP_BASE_URL."uploads/"?>"+data.data.file_name,'_blank');
-//            },
-//            deleteCallback: function() {
-//                $('.ajax-upload-dragdrop').show();
-//            }
-//	});
-//        $('.ajax-file-upload-abort').click(function(){
-//            $('.ajax-upload-dragdrop').show();
-//        });
-    });
+    }); 
+ 
 </script>
 <a href="#" id="tmpLink"></a>
 <?php $this->load->view('vwFooter_vw'); ?>

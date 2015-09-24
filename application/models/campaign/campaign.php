@@ -120,6 +120,7 @@ class Campaign extends CI_Model
         try {
             $data['campaign'] = $data[$this->_entity_id];
             $data['target'] = serialize($data['target']);
+           
             unset($data[$this->_entity_id]);
             $this->db->from('ci_campaigns_target');
             $this->db->where('campaign', $data['campaign']);
@@ -138,6 +139,7 @@ class Campaign extends CI_Model
         } catch (Exception $e) {
             $result = $e->getMessage();
         }
+     //    echo "<pre>"; print_r($result); exit;
         return $result;
     }
     

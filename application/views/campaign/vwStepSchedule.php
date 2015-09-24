@@ -39,14 +39,14 @@
 <a name="schedule"></a>
 <div class="panel panel-default ng-scope">
     <div class="panel-heading">
-        <h5 class="panel-title">
-        <i class="fa fa-calendar">
-        </i>&nbsp;Schedule</h5>
+        <button id="button-edit-campaign-schedule" class="pull-right btn button-edit btn-default <?php echo (isset($campaign['schedule_id'])?'':'ng-hide') ?>">Edit</button>
+        <h4 class="panel-title"><i class="fa fa-calendar"></i>&nbsp;Schedule</h4>
         <div  class="small text-muted <?php if(!isset($campaign) || !isset($campaign['campaign_id'])):?>ng-hide<?php endif;?>">Please choose schedule for your campaign</div>
     </div>
     <?php if(isset($campaign) && isset($campaign['campaign_id'])):?>
     <div class="slide-animation">
-        <form id="campaign-schedule-form" action="<?php echo HTTP_BASE_URL."campaigns/save_schedule"?>" method="POST">
+        <div id="campaign-schedule-preview" class="campaign_preview <?php echo (!isset($campaign['schedule_error']) && isset($campaign['schedule_id'])?'ng-hide':'') ?>"></div>
+        <form id="campaign-schedule-form" class='<?php echo (!isset($campaign['schedule_error']) && isset($campaign['schedule_id'])?'ng-hide':'') ?>' action="<?php echo HTTP_BASE_URL."campaigns/save_schedule"?>" method="POST">
             <input type="hidden" name="campaign_id" value="<?php echo (isset($campaign['campaign_id'])?$campaign['campaign_id']:'') ?>"
             <div  class="panel-body ng-pristine ng-valid ng-valid-required">
                 <?php //echo "<pre>"; print_r($campaign); exit; ?>
@@ -66,7 +66,7 @@
                         <div class='col-md-5 campaign-start-div' id="campaign-start-custom-div" style="<?php if(isset($campaign['date_start']) && $campaign['date_start']=="00/00/0000"):?>display: none;<?php endif;?>">
                             <div class="form-group">
                                 <div class='input-group date'>
-                                    <input type='text'  id='datetimepicker6' value='<?php echo (isset($campaign['date_start'])?$campaign['date_start']:"00/00/0000")?>' name="date_start" />
+                                    <input type='text' class='campaign-start-custom' id='datetimepicker6' value='<?php echo (isset($campaign['date_start'])?$campaign['date_start']:"00/00/0000")?>' name="date_start" />
                                 </div>
                             </div>
                         </div>
@@ -86,14 +86,14 @@
                         <div class='col-md-5 campaign-end-div' id="campaign-end-custom-div" style="<?php if(isset($campaign['date_end']) && $campaign['date_end']=="00/00/0000"):?>display: none;<?php endif;?>">
                             <div class="form-group">
                                 <div class='input-group date'>
-                                    <input type='text' id='datetimepicker7' name="date_end" value="<?php echo (isset($campaign['date_end'])?$campaign['date_end']:"00/00/0000")?>"/>
+                                    <input class='campaign-end-custom' type='text' id='datetimepicker7' name="date_end" value="<?php echo (isset($campaign['date_end'])?$campaign['date_end']:"00/00/0000")?>"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             <div class="row container">
-                <div class="col-md-6">
+                <div class="col-md-6 form-group">
                     <b>Days</b>
                     <div>
                         <p class="small text-muted">Please specify on day range for campaign schedule</p>
@@ -116,16 +116,18 @@
                     <b>Time</b>
                     <p class="small text-muted">Please specify on time range for campaign schedule</p>
                     <div class="form-group row">
-                        <div class="col-sm-6">From
+                        <div class="col-sm-6 form-group">
+                            <b>From</b>
                             <div class="">
-                                <div class="form-group">
+                                <div class="slide-animation">
                                     <input type="text" name="schedule_from" class="time start form-control" value="<?php echo (isset($campaign['schedule_from'])?$campaign['schedule_from']:"")?>"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6">Until
+                        <div class="col-sm-6 form-group">
+                            <b>Until</b>
                             <div class="">
-                                <div class="form-group">
+                                <div class="slide-animation">
                                     <input type="text" name="schedule_until" class="time end form-control" value="<?php echo (isset($campaign['schedule_until'])?$campaign['schedule_until']:"")?>"/>
                                 </div>
                             </div>

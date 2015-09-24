@@ -12,6 +12,7 @@ class Campaigns extends CI_Controller {
         }
         $data = array();
         $data['first_name'] = $this->session->userdata('first_name');
+     
         $data['activetab'] = 'campaigns';
         $this->_data = $data;
         $this->load->library('form_validation');
@@ -95,7 +96,8 @@ class Campaigns extends CI_Controller {
             $this->_data = $this->campaign->setCampaign($campaignData)->save();
         } else {
             $campaignData['errors'] = $this->form_validation->error_string();
-            return $this->load->view('campaign/vwStepMain', array('campaign'=>$campaignData,'bradcrumbs'=>array('campaigns'=>'Campaigns','Campaign Details')));
+            $campaignData['campaign_error'] = true;
+            return $this->load->view('campaign/vwStepMain', array('data'=>$this->_data,'campaign'=>$campaignData,'bradcrumbs'=>array('campaigns'=>'Campaigns','Campaign Details')));
         }
         
         redirect('campaigns/campaign/'.$this->_data['campaign_id']);
@@ -104,6 +106,12 @@ class Campaigns extends CI_Controller {
     
     public function save_schedule() {
         $campaignData = $_POST;
+        if(!$campaignData['date_start']) {
+            $campaignData['date_start'] = '00/00/0000';
+        }
+        if(!$campaignData['date_end']) {
+            $campaignData['date_end'] = '00/00/0000';
+        }
         $this->form_validation->set_rules('date_start', 'Campaign Date Starts', 'required');
         $this->form_validation->set_rules('date_end', 'Campaign Date Ends', 'required');
         $this->form_validation->set_rules('week_days', 'Campaign Week Days', 'required');
@@ -115,7 +123,8 @@ class Campaigns extends CI_Controller {
         } else {
             $campaignData = array_merge($this->campaign->getCampaign($campaignData['campaign_id']),$campaignData);
             $campaignData['errors'] = $this->form_validation->error_string();
-            return $this->load->view('campaign/vwStepMain', array('campaign'=>$campaignData,'bradcrumbs'=>array('campaigns'=>'Campaigns','Campaign Details')));
+            $campaignData['schedule_error'] = true;
+            return $this->load->view('campaign/vwStepMain', array('data'=>$this->_data,'campaign'=>$campaignData,'bradcrumbs'=>array('campaigns'=>'Campaigns','Campaign Details')));
         }
         
         redirect('campaigns/campaign/'.$this->_data['campaign_id']);

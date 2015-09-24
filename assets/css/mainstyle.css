@@ -51,3 +51,21 @@ label.error {
     background-color: #e04f26;
     color: #fff;
 }
+.target-childs div {
+    margin-top: 2px;
+    padding-top: 2px;
+}
+.preview_item {
+    float:left;
+    width: 31%;
+    margin: 10px;
+}
+
+.campaign_preview {
+    display: inline-block; 
+    width: 100%;
+}
+.panel-heading {
+    width: 100%;
+    min-height: 40px;
+}
