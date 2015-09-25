@@ -71,96 +71,10 @@ $file = APPPATH . "data/campaign_categories.xml";
     </div>
     </form>
     <script type='text/javascript'>
-        $('.target-block').click(function(){
-            checkBlockTargets($(this).attr('id'));
-        });
-        $('.target-block-span').click(function(){
-            checkBlockTargets($(this).attr('for'));
-        });
-        
-        $(".target-childs i").click(function(){
-            checkTarget($(this).attr('id'));
-        });
-        
-        $(".target-childs span").click(function(){
-            checkTarget($(this).attr('for'));
-            checkParentBlock($('#'+$(this).attr('for')).attr('data'));
-        });
-
-        function checkParentBlock(id) {
-            var checked = 0;
-            var total = 0;
-            $(".target-childs-"+id+" input[type=checkbox]").each(function(){
-                total++;
-                if($(this).attr("data")=='1') {
-                   checked++;
-                }
-            });
-            if(checked==total) {
-                $("#"+id).removeClass('fa-square-o').addClass('fa-check-square-o');
-            } else {
-                $("#"+id).removeClass('fa-check-square-o').addClass('fa-square-o');
-            }
-        }
-        
-        function checkTarget(id,selectAll) {
-            var num = parseInt($('#num-'+$("#"+id).attr('data')).html());
-            
-            if($('#'+id).hasClass('fa-square-o')) {
-                if(typeof selectAll!='undefined' && selectAll==0) {
-                    return true;
-                }
-                $("#"+id).removeClass('fa-square-o').addClass('fa-check-square-o');
-                $('#num-'+$("#"+id).attr('data')).html(num+1);
-                $("#checkbox-"+id).attr("checked", true);
-                $("#checkbox-"+id).attr("data",'1');
-            } else {
-                if(typeof selectAll!='undefined' && selectAll==1) {
-                    return true;
-                }
-                num = num-1;
-                if(isNaN(num)) {
-                    num = '0';
-                }
-                $('#num-'+$("#"+id).attr('data')).html(num);
-                $("#"+id).removeClass('fa-check-square-o').addClass('fa-square-o');
-                $("#checkbox-"+id).attr("checked", false);
-                $("#checkbox-"+id).attr("data",'0');
-            }
-            checkParentBlock($('#'+id).attr('data'));
-        }
-        function checkBlockTargets(id) {
-            if($(".target-childs-"+id).find('.fa-square-o').size()>0) {
-                $("."+id).removeClass('fa-square-o').addClass('fa-check-square-o');
-                $('#num-'+id).html($("."+id).size());
-                $(".target-childs-"+id+" input").each(function(){
-                    $(this).attr("checked", true);
-                });
-                $("#"+id).removeClass('fa-square-o').addClass('fa-check-square-o');
-            } else {
-                $("."+id).removeClass('fa-check-square-o').addClass('fa-square-o');
-                $(".target-childs-"+id+" input").each(function(){
-                    $(this).attr("checked", false);
-                });
-                $("#"+id).removeClass('fa-check-square-o').addClass('fa-square-o');
-                $('#num-'+id).html(0);
-            }
-        }
-        $("#campaign-target-form .btn-warning").click(function(){
-            var select = 0;
-            if($(this).attr('id')=='select_all') {
-               select=1;
-            }
-            $("#campaign-target-form i").each(function(){
-                checkTarget($(this).attr('id'),select);
-            });
-        });
         <?php if(isset($campaign['target'])): 
             foreach ($campaign['target'] as $targetId): ?>
             checkTarget('<?php echo $targetId?>');
-        <?php 
-            endforeach; 
-        endif;?>
+        <?php  endforeach; endif;?>
     </script>
     <?php endif; ?>
 </div>
