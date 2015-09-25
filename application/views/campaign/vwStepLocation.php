@@ -1,5 +1,3 @@
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCW5VsEDH465TQ30juUufywDJ9Sk0zEx4Y&libraries=places"></script>
-<script src="<?php echo HTTP_JS_PATH; ?>jquery.geocomplete.min.js"></script>
 <div class="panel panel-default ng-scope">
     <a name="location"></a>
     <div class="panel-heading">
