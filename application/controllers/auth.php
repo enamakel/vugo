@@ -51,9 +51,7 @@ class Auth extends CI_Controller {
         return $this->output
             ->set_content_type('application/json')
             ->set_status_header(200)
-            ->set_output(json_encode(array(
-                    'valid'=>$result
-            )));
+            ->set_output($result);
     }
     
     private function _do_register() {

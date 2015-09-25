@@ -1,10 +1,3 @@
-<link href="<?php echo HTTP_CSS_PATH; ?>jquery.timepicker.css" rel="stylesheet">
-<link href="<?php echo HTTP_CSS_PATH; ?>jquery-ui.min.css" rel="stylesheet">
-<script src="<?php echo HTTP_JS_PATH; ?>jquery-ui.min.js"></script>
-<script src="<?php echo HTTP_JS_PATH; ?>jquery.timepicker.min.js"></script>
-<script src="<?php echo HTTP_JS_PATH; ?>datepair.js"></script>
-<script src="<?php echo HTTP_JS_PATH; ?>jquery.datepair.js"></script>
-  
 <script type="text/javascript">
     $(function() {
         $( "#datetimepicker6" ).datepicker({
@@ -149,7 +142,6 @@
 
 <script type="text/javascript">
     var campaignStart = function(event) {
-       
         $('i.campaign-start').each(function(){
             $(this).removeClass('fa-check-square-o');
             $(this).removeClass('fa-square-o');
@@ -182,30 +174,7 @@
             }
         }
     };
-    var campaignWeekDays = function(event) {
-      
-        $('i.week_days').each(function(){
-            $(this).removeClass('fa-check-square-o');
-            $(this).removeClass('fa-square-o');
-            $(this).addClass('fa-square-o');
-        });
-            var el = $(event.currentTarget);
-        if(!$(event.currentTarget).is('i')) {
-            el = $("#"+el.attr('for'));
-        }
-       
-        el.removeClass('fa-square-o');
-        el.addClass('fa-check-square-o');
-        if(el.attr('id')=='week_days_all') {
-            $('#week_days').val('1');
-        }
-        if(el.attr('id')=='week_days_week') {
-            $('#week_days').val('2');
-        }
-        if(el.attr('id')=='week_days_weekend') {
-            $('#week_days').val('3');
-        }
-    };
+    
     var campaignEnd = function(event) {
        
         $('i.campaign-end').each(function(){
@@ -242,55 +211,8 @@
         }
     };
     
-        // initialize input widgets first
-    $('#time_picker .time').timepicker({
-        'showDuration': true,
-        'timeFormat': 'g:ia'
-    });
-    $('#time_picker').datepair();
     
     $('.campaign-end').click(campaignEnd);
     $('.campaign-start').click(campaignStart);
-    $('.week_days').click(campaignWeekDays);
-    campaignStart();
-    campaignEnd();
-
-    $('#campaign-schedule-form').validate({
-        ignore: ":disabled, :hidden",
-        rules: {
-            date_start: {
-                required:true,
-                date:'MM/DD/YYYY'
-            },
-            date_end: {
-                required:true,
-                date:'MM/DD/YYYY'
-            },
-            schedule_from: {
-                required:true
-            },
-            schedule_until: {
-                required:true
-            }
-        },
-        messages: {
-            date_start: {
-                required: "Campaign Date Starts is required",
-                date: 'The value is not a valid date'
-            },
-            date_end: {
-                required: "Campaign Date Ends is required",    
-                date: 'The value is not a valid date'
-            },
-            schedule_from: {
-                required: "Campaign Schedule From Time is required"
-            },
-            schedule_until: {
-                required: "Campaign Schedule Until Time is required"
-            }
-        }
-    });
-        $('button').each(function(){
-            $(this).prop("disabled", false);
-        });
+   
 </script>
