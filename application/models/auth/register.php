@@ -33,7 +33,7 @@ class Register extends CI_Model
     }
     
     public function checkUsername($username) {
-        return $this->getUser($username)?false:true;
+        return $this->getUser($username)?"null":"true";
     }
     
     public function registerNewUser($data) {
