@@ -113,7 +113,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
+$autoload['model'] = array();//array('admin/aabstract');
 
 
 /* End of file autoload.php */

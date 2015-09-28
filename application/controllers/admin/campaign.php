@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-class ContactUs extends CI_Controller {
+class Campaign extends CI_Controller {
 /**
  * ark Admin Panel for Codeigniter 
  * Author: Abhishek R. Kaushik
@@ -19,17 +19,17 @@ class ContactUs extends CI_Controller {
     }
 
     public function index() {
-        $arr['page'] = 'contact';
-        $this->load->view('admin/vwManageContactMssgs',$arr);
+        $arr['page'] = 'products';
+        $this->load->view('admin/vwManageProduct',$arr);
     }
 
     public function add_user() {
-        $arr['page'] = 'contact';
+        $arr['page'] = 'products';
         $this->load->view('admin/vwAddUser',$arr);
     }
 
      public function edit_user() {
-        $arr['page'] = 'contact';
+        $arr['page'] = 'products';
         $this->load->view('admin/vwEditUser',$arr);
     }
     

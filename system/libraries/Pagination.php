@@ -144,6 +144,7 @@ class CI_Pagination {
 
 		if ($CI->config->item('enable_query_strings') === TRUE OR $this->page_query_string === TRUE)
 		{
+                   
 			if ($CI->input->get($this->query_string_segment) != $base_page)
 			{
 				$this->cur_page = $CI->input->get($this->query_string_segment);
@@ -156,7 +157,7 @@ class CI_Pagination {
 		{
 			if ($CI->uri->segment($this->uri_segment) != $base_page)
 			{
-				$this->cur_page = $CI->uri->segment($this->uri_segment);
+                          	$this->cur_page = $CI->uri->segment($this->uri_segment);
 
 				// Prep the current page - no funny business!
 				$this->cur_page = (int) $this->cur_page;

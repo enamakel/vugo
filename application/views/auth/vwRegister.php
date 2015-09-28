@@ -99,7 +99,11 @@ $this->load->view('vwHeader_vw');
                                 </div>
                             </div>
                         </div>
-                        
+                        <div class="form-group required">
+                            <label class="inline-label vw-binding" for="referral_code">Referral Code</label>
+                            <i class="fa fa-info-circle text-muted vw-scope" title="Case sensitive"></i>
+                            <input value="<?php echo ((isset($referral_code))?$referral_code:'')?>" class="form-control" placeholder="Referral Code" name="referral_code" type="text">
+                        </div>
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-3">
                                 <button class="btn btn-primary form-control" type="submit">

@@ -1,5 +1,5 @@
 <?php
-$this->load->view('admin/vwHeaderOld');
+$this->load->view('admin/vwHeader');
 ?>
 <!--  
 Load Page Specific CSS and JS here
@@ -295,5 +295,5 @@ Downloaded from http://devzone.co.in
 
 <!--  PAge Code Ends here -->
 <?php
-$this->load->view('admin/vwFooterOld');
+$this->load->view('admin/vwFooter');
 ?>

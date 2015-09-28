@@ -1,5 +1,5 @@
 <?php
-$this->load->view('admin/vwHeaderOld');
+$this->load->view('admin/vwHeader');
 ?>
 <!--  
 Author : Abhishek R. Kaushik 
@@ -86,5 +86,5 @@ Downloaded from http://devzone.co.in
       </div><!-- /#page-wrapper -->
 
 <?php
-$this->load->view('admin/vwFooterOld');
+$this->load->view('admin/vwFooter');
 ?>

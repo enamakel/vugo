@@ -56,6 +56,7 @@ class Auth extends CI_Controller {
     
     private function _do_register() {
         $postData = $_POST;
+      
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('first_name', 'First Name', 'required');
@@ -64,6 +65,13 @@ class Auth extends CI_Controller {
         $this->form_validation->set_rules('phone_number', 'Phone Name', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         if ($this->form_validation->run() != FALSE) {
+            $this->load->model('admin/referrals','referral');
+            $referral = $this->referral->load(htmlspecialchars($postData['referral_code']),'code');
+            $postData['referral_code'] = $referral->getReferralId();
+      
+            if($referral->getStatus()!=1) {
+                $postData['referral_code'] = '';
+            }
             $result = $this->register->registerNewUser($postData);
             if(is_array($result)) {
                 $this->session->set_userdata(array(

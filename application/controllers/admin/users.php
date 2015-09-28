@@ -20,7 +20,7 @@ class Users extends CI_Controller {
 
     public function index() {
         $arr['page'] = 'user';
-        $this->load->view('admin/vwManageUser',$arr);
+        $this->load->view('admin/vwUserGrid',$arr);
     }
 
     public function add_user() {

@@ -167,3 +167,6 @@ table.tablesorter thead tr th:hover {
   display: table-cell;
   vertical-align: top; 
 }
+.fa {
+    margin-right:10px;
+}
