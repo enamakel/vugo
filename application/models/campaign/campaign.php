@@ -1,8 +1,8 @@
 <?php
 class Campaign extends CI_Model 
 {
-    private $_entity_id = 'campaign_id';
-    private $_data = array();
+    protected $_entity_id = 'campaign_id';
+    protected $_data = array();
     function __construct() {
         parent::__construct();
     }
@@ -94,6 +94,12 @@ class Campaign extends CI_Model
             $data['date_start'] = $y."-".$m."-".$d;
             list($m,$d,$y) = explode('/',$data['date_end']);
             $data['date_end'] = $y."-".$m."-".$d;
+            if(strpos($data['schedule_until'],'pm')) {
+                $data['schedule_until'] = str_replace("pm","",$data['schedule_until']);
+                list($h,$m) = explode(':',$data['schedule_until']);
+                $h +=12;
+                $data['schedule_until'] = $h.":".$m;
+            }
             unset($data[$this->_entity_id]);
             $this->db->from('ci_campaigns_schedule');
             $this->db->where('campaign', $data['campaign']);
