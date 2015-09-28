@@ -4,8 +4,9 @@
             <div style="paddivw-top:0px;float:none" class="navbar-brand">
                 <div>
                     <img style="height: 22px;" src="<?php echo HTTP_IMAGES_PATH ?>logo-icon.png">&nbsp;
+                    <div style="font-size:8pt;color:#777" id="adv_zone">[ADVERTISER ZONE]</div>
                 </div>
-                <div style="font-size:8pt;color:#777">[ADVERTISER ZONE]</div>
+                
             </div>
         </div>
         <div class="navbar-collapse collapse">
