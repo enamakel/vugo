@@ -68,10 +68,9 @@
         <form class="form-signin panel" method="post" action="<?php echo base_url(); ?>admin/home/do_login">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" class="form-control" placeholder="Username" name="username" id="username" autofocus>
-        <input type="password" id="pass" class="form-control" placeholder="Password" name="password">
-        <label class="checkbox">
-            <input type="checkbox" value="remember-me" id="remember_me">Remember me
-        </label>
+        <input type="password" id="pass" class="form-control" placeholder="Password" name="password" style='margin-top: 10px;'>
+        <input type="checkbox" value="remember-me" id="remember_me" style='float:left;'>
+        <label class="checkbox" for='remember_me' style='float:left; margin-left: 10px; margin-top: 1px;'>Remember me</label>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       </form>
     </div> <!-- /container -->

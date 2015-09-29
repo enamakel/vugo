@@ -50,7 +50,7 @@ class Referral extends CI_Controller {
         $config['num_tag_close'] = '</li>';
         $this->pagination->initialize($config);
         $this->_pagerConfig = $config;
-     //   var_dump($this->uri->rsegment($config["uri_segment"])); exit;
+    
         $this->_data['page'] = ($this->uri->segment($config["uri_segment"])) ? $this->uri->segment($config["uri_segment"]) : 0;
         $this->_data['pagination'] = $this->pagination->create_links();
     }
@@ -76,6 +76,7 @@ class Referral extends CI_Controller {
         $this->_data['referral'] = $this->referral->getEntity(false);
         $this->load->view('admin/vwReferralEdit',$this->_data);
     }
+    
     public function edit($id=false) 
     {
         if(!$id){
@@ -98,7 +99,14 @@ class Referral extends CI_Controller {
             $this->_data['page']='referral';
             return $this->load->view('admin/vwReferralEdit', array('data'=>$this->_data,'referral'=>$referral,'errors'=>$errors));
         }
-        
     }
-
+    
+    public function details() {
+        $id = $this->uri->segment(4);
+        if(!$id){
+            return redirect('admin/referral');
+        }
+        $this->_data['referral'] = $this->referral->getEntity($id);
+        $this->load->view('admin/vwReferralDetails',$this->_data);
+    }
 }
