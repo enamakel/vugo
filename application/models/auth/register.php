@@ -1,24 +1,23 @@
 <?php
 class Register extends CI_Model 
 {
-    private $_countries = array(
-        'US' => 'United States'
-    ); 
-    
-    private $_phoneCodes = array(
-        'US' => '+1',
-    );
-    
     function __construct() {
+        $this->load->helper('user');
         parent::__construct();
     }
     
     public function getCountryCodes() {
-        return $this->_countries;
+        $country = userAvailableCountry();
+        return $country;
     } 
     
     public function getRelationCountryPhoneCodes() {
-        return json_encode($this->_phoneCodes);
+        $_phoneCodes = array();
+        $countries = $this->getCountryCodes();
+        foreach ($countries as $key=>$value) {
+            $_phoneCodes[$key] = $value['phone_code'];
+        }
+        return json_encode($_phoneCodes);
     }
     
     public function getUser($username,$field=false) {
@@ -44,6 +43,8 @@ class Register extends CI_Model
         }
         $data['phone_number'] = $data['phoneCountry'].$data['phone_number'];
         unset($data['phoneCountry']);
+        $data['registered_date'] = date('Y-m-d H:i:s');
+        $data['last_login'] = date('Y-m-d H:i:s');
         $data['password'] = md5($data['password']);
         $result = $this->db->insert('ci_users', $data);
         if($result) {
@@ -67,6 +68,9 @@ class Register extends CI_Model
         $query = $this->db->get();
         if ($query->num_rows() > 0 ) {
             $row = $query->row_array();
+            $this->db->update('ci_users', 
+                        array('last_login'=>date('Y-m-d H:i:s')),
+                        array('user_id' => $row['user_id']));
             return $row;
         }
         return false;

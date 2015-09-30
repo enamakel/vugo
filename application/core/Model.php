@@ -198,8 +198,11 @@ class CI_Model {
      * @param string $field
      * @return \CI_Model
      */
-    public function getEntity($id,$field = '') 
+    public function getEntity($id = '',$field = '') 
     {
+        if(!$id) {
+            return $this;
+        }
         $this->db->from($this->_table);
         if($field) {
             $this->db->where($field,trim($id));
@@ -210,12 +213,22 @@ class CI_Model {
         if ($query->num_rows() > 0 ) {
             $result = $query->row_array();
         } else {
-            $arrayKeys = array_flip($this->db->list_fields('ci_referral_codes'));
+            $arrayKeys = array_flip($this->db->list_fields($this->_table));
             $result = array_fill_keys($arrayKeys,'');
         }
         $this->setData($result);
         
         return $this;
+    }
+    
+    /**
+     * Count all records in table
+     * 
+     * @return int
+     */
+    public function countTableRows() 
+    {
+        return $this->db->count_all($this->_table);
     }
     
     /**
@@ -227,10 +240,9 @@ class CI_Model {
     {
         $result = false;
         $this->_beforeSave();
-        //var_dump((isset($this->_data[$this->_entity_id]) && !$this->_data[$this->_entity_id])); exit;
         if(!isset($this->_data[$this->_entity_id]) || (isset($this->_data[$this->_entity_id]) && !$this->_data[$this->_entity_id])) {
             $this->db->insert($this->_table, $this->_data);
-            $this->getEntity($this->db->insert_id());
+            $this->load($this->db->insert_id());
         } else {
             $result = $this->db->update($this->_table, 
                 $this->_data,
@@ -248,7 +260,8 @@ class CI_Model {
      * 
      * @return \CI_Model
      */
-    protected function _beforeSave() {
+    protected function _beforeSave() 
+    {
         return $this;
     }
     
@@ -257,10 +270,31 @@ class CI_Model {
      * 
      * @return \CI_Model
      */
-    protected function _afterSave() {
+    protected function _afterSave() 
+    {
         return $this;
     }
     
+    /**
+     * Before load function
+     * 
+     * @return \CI_Model
+     */
+    protected function _beforeLoad() 
+    {
+        return $this;
+    }
+
+    /**
+     * After load function
+     * 
+     * @return \CI_Model
+     */
+    protected function _afterLoad()
+    {
+        return $this;
+    }
+
     /**
      * Load entity by id or custom field
      * 
@@ -268,11 +302,15 @@ class CI_Model {
      * @param string $field
      * @return \CI_Model
      */
-    public function load($id='',$field='') {
-        if(!$id) {
-            return $this;
-        }
-        return $this->getEntity($id,$field);
-        
+    public function load($id='',$field='') 
+    {
+        $this->_beforeLoad();
+        $this->getEntity($id,$field);
+        $this->_afterLoad();
+        return $this;
+    }
+    
+    public function getId() {
+        return $this->getData('id')?$this->getData('id'):$this->getData($this->_entity_id);
     }
 }

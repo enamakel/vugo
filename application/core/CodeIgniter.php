@@ -34,7 +34,6 @@
  *
  */
 	define('CI_VERSION', '2.1.4');
-
 /**
  * CodeIgniter Branch (Core = TRUE, Reactor = FALSE)
  *
@@ -228,9 +227,13 @@
  * ------------------------------------------------------
  *
  */
-	// Load the base controller class
-	require BASEPATH.'core/Controller.php';
-
+	// Load the base controller class     
+        if(file_exists(APPPATH.'core/Controller.php')) {
+            require APPPATH.'core/Controller.php';
+        } else {
+            require BASEPATH.'core/Controller.php';
+        }
+        
 	function &get_instance()
 	{
 		return CI_Controller::get_instance();

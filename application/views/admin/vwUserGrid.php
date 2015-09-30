@@ -1,99 +1,79 @@
 <?php
-$this->load->view('admin/vwHeader');
+    $this->load->view('admin/vwHeader');
+        $this->load->helper('user');
 ?>
-<!--  
-Author : Abhishek R. Kaushik 
-Downloaded from http://devzone.co.in
--->
-
-      <div id="page-wrapper">
-
-        <div class="row">
-          <div class="col-lg-12">
-            <h1>Users <small>Manage Users Module</small></h1>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Users <small>Grid</small></h1>
             <ol class="breadcrumb">
-              <li><a href="Users"><i class="icon-dashboard"></i> Users</a></li>
-              <li class="active"><i class="icon-file-alt"></i> Users</li>
-              
-              
-              <button class="btn btn-primary" type="button" style="float:right;">Add New User</button>
-              <div style="clear: both;"></div>
+                <li><a href="<?php echo base_url(); ?>admin/referral"><i class="fa fa-users"></i> Users</a></li>
+                <li class="active"><i class="fa fa-table"></i> Grid</li>        
+                <button onclick="location.href='<?php echo base_url(); ?>admin/referral/add'" class="btn btn-primary" type="button" style="float:right;">Add New User</button>
+                <div style="clear: both;"></div>
             </ol>
-          </div>
-        </div><!-- /.row -->
-
-        
-            
-            <div class="table-responsive">
-              <table class="table table-hover tablesorter">
-                <thead>
-                  <tr>
-                    <th class="header">UserName <i class="fa fa-sort"></i></th>
-                    <th class="header">Email <i class="fa fa-sort"></i></th>
-                    <th class="header">Last Login <i class="fa fa-sort"></i></th>
-                    <th class="header">Signup Date<i class="fa fa-sort"></i></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Sumit</td>
-                    <td>sumit@example.com</td>
-                    <td>Jan 1,2014</td>
-                    <td>Jan 1,2014</td>
-                  </tr>
-                  <tr>
-					<td>Ravi</td>
-                    <td>Ravi@example.com</td>
-                    <td>Jan 1,2014</td>
-                    <td>Jan 1,2014</td>
-                  </tr>
-                  <tr>
-                    <td>Tom</td>
-                    <td>Tom@example.com</td>
-                    <td>Jan 3,2014</td>
-                    <td>Jan 1,2014</td>
-                  </tr>
-                  <tr>
-                   <td>Tina</td>
-                    <td>Tina@example.com</td>
-                    <td>Jan 1,2014</td>
-                    <td>Jan 1,2014</td>
-                  </tr>
-                  <tr>
-                    <td>Sam</td>
-                    <td>Sam@example.com</td>
-                    <td>Jan 1,2014</td>
-                    <td>Jan 1,2014</td>
-                  </tr>
-                  <tr>
-                    <td>John</td>
-                    <td>John@example.com</td>
-                    <td>Oct 23,2013</td>
-                    <td>June 5,2014</td>
-                  </tr>
-                  <tr>
-                    <td>Joseph</td>
-                    <td>Joseph@example.com</td>
-                    <td>Jan 1,2014</td>
-                    <td>Jan 1,2014</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-        
-        <ul class="pagination pagination-sm">
-                <li class="disabled"><a href="#"><<</a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">>></a></li>
-              </ul>
-        
-        
-      </div><!-- /#page-wrapper -->
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <?php echo $pagination; ?>
+        </div>
+    </div> 
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped tablesorter">
+            <thead>
+                <tr>
+                    <th><i class="fa fa-sort"></i>User #</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>First Name</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>Last Name</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>Email</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>Company Name</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>Country</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>Phone number</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>Referral code</th>
+                    <th class="text-nowrap"><i class=" fa fa-sort"></i>Registered time</th>
+                    <th class="text-nowrap"><i class="fa fa-sort"></i>Last login time</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($users as $_user): ?>
+                    <tr>
+                        <td><?php echo $_user->user_id; ?></td>
+                        <td><?php echo $_user->first_name; ?></td>
+                        <td><?php echo $_user->last_name; ?></td>
+                        <td><?php echo $_user->email; ?></td>
+                        <td><?php echo $_user->company_name; ?></td>
+                        <td><?php echo renderer_country($_user); ?></td>
+                        <td><?php echo renderer_phoneNumber($_user); ?></td>
+                        <td><?php echo $_user->code; ?></td>
+                        <td><?php echo $_user->registered_date; ?></td>
+                        <td><?php echo renderer_lastLogin($_user); ?></td>
+                        <td><a href="<?php echo base_url(); ?>admin/user/edit/<?php echo $_user->user_id; ?>" class="btn btn-primary btn-s">Edit</a>
+                            <a href="#" data-user="<?php echo $_user->user_id; ?>" class="user-delete btn btn-danger btn-s">Delete</a></td>
+                    </tr>
+                 <?php endforeach;?>
+            </tbody>
+        </table>
+    </div> 
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <?php echo $pagination; ?>
+        </div>
+    </div> 
+</div>
+<script type="text/javascript">
+    
+    var deleteUserConfirm = function() {
+        var user_id = $(this).attr('data-user');
+        bootbox.confirm("Are you sure delete this user?", function(result) {
+            if(result===true) {
+                location.href= "<?php echo base_url(); ?>admin/referral/edit/"+user_id;
+            }
+        }); 
+    }
+    $('.user-delete').click(deleteUserConfirm);
+</script>
 <?php
-$this->load->view('admin/vwFooter');
+    $this->load->view('admin/vwFooter');
 ?>

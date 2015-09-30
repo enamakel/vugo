@@ -22,8 +22,8 @@ class Auth extends CI_Controller {
            return $this->load->view('auth/vwForgot');
         }
         
-        $user = htmlspecialchars(strip_tags($_POST['username']));
-        $email = htmlspecialchars(strip_tags($_POST['email']));
+        $user = $this->input->post('username',true);
+        $email = $this->input->post('email',true);
 
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
@@ -55,7 +55,7 @@ class Auth extends CI_Controller {
     }
     
     private function _do_register() {
-        $postData = $_POST;
+        $postData = $this->input->post(null,true);
       
         $this->form_validation->set_rules('username', 'Username', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
@@ -99,8 +99,8 @@ class Auth extends CI_Controller {
             if(!isset($_POST['username'])) {
                 return $this->load->view('auth/vwAuth');
             }
-            $user = htmlspecialchars(strip_tags($_POST['username']));
-            $password = htmlspecialchars(strip_tags($_POST['password']));
+            $user =$this->input->post('username',true);
+            $password = $this->input->post('password',true);
 
             $this->form_validation->set_rules('username', 'Username', 'required');
             $this->form_validation->set_rules('password', 'Password', 'required');

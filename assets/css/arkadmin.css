@@ -23,6 +23,11 @@ body {
   padding: 5px 15px;
 }
 
+.message {
+  width: 100%;
+  padding: 15px 15px 0;
+}
+
 /* Nav Messages */
 
 .messages-dropdown .dropdown-menu .message-preview .avatar,
@@ -165,8 +170,23 @@ table.tablesorter thead tr th:hover {
 
     table td { 
   display: table-cell;
-  vertical-align: top; 
+  vertical-align: super !important; 
+  height: 30px;
 }
 .fa {
     margin-right:10px;
+}
+.bootbox .modal-dialog {
+    width: 500px;
+    height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -250px;
+}
+.margin-bottom-20 {
+    margin-bottom: 20px;
+}
+.margin-bottom-10 {
+    margin-bottom: 10px;
 }

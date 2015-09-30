@@ -4,8 +4,7 @@ if (!defined('BASEPATH'))
 
 class Referral extends CI_Controller {
     
-    private $_pagerConfig = array();
-    private $_data = array('page'=>'referral');
+    protected $_data = array('controller'=>'referral');
     
     public function __construct() 
     {
@@ -17,42 +16,11 @@ class Referral extends CI_Controller {
         $this->load->model('admin/referrals','referral');
     }
     
-    private function _initPager() {
-        $this->load->library('pagination');
-        
-        //pagination settings
-        $config['base_url'] = site_url('admin/referral/page');
-        $config['total_rows'] = $this->referral->countTableRows();
-        $config['per_page'] = 10;
-        $config["uri_segment"] = 4;
-        $choice = $config["total_rows"] / $config["per_page"];
-        $config["num_links"] = floor($choice);
-
-        //config for bootstrap pagination class integration
-        $config['full_tag_open'] = '<ul class="pagination">';
-        $config['full_tag_close'] = '</ul>';
-        $config['first_link'] = false;
-        $config['last_link'] = false;
-        $config['use_page_numbers'] = true;
-        $config['first_tag_open'] = '<li>';
-        $config['first_tag_close'] = '</li>';
-        $config['prev_link'] = '&laquo';
-        $config['prev_tag_open'] = '<li class="prev">';
-        $config['prev_tag_close'] = '</li>';
-        $config['next_link'] = '&raquo';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-        $config['last_tag_open'] = '<li>';
-        $config['last_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="active"><a href="#">';
-        $config['cur_tag_close'] = '</a></li>';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        $this->pagination->initialize($config);
-        $this->_pagerConfig = $config;
-    
-        $this->_data['page'] = ($this->uri->segment($config["uri_segment"])) ? $this->uri->segment($config["uri_segment"]) : 0;
-        $this->_data['pagination'] = $this->pagination->create_links();
+    protected function _initPager() {
+        $this->_pagerConfig['per_page'] = 25;
+        $this->_pagerConfig['base_url'] = site_url('admin/referral/page');               
+        $this->_pagerConfig['total_rows'] = $this->referral->countTableRows();            
+        parent::_initPager();
     }
 
     public function index() 
@@ -73,7 +41,7 @@ class Referral extends CI_Controller {
 
     public function add() 
     {
-        $this->_data['referral'] = $this->referral->getEntity(false);
+        $this->_data['referral'] = $this->referral->load(false);
         $this->load->view('admin/vwReferralEdit',$this->_data);
     }
     
@@ -82,7 +50,7 @@ class Referral extends CI_Controller {
         if(!$id){
             return redirect('admin/referral');
         }
-        $this->_data['referral'] = $this->referral->getEntity($id);
+        $this->_data['referral'] = $this->referral->load($id);
         $this->load->view('admin/vwReferralEdit',$this->_data);
     }
    
@@ -95,7 +63,7 @@ class Referral extends CI_Controller {
             return redirect('admin/referral');
         } else {
             $errors = $this->form_validation->error_string();
-            $referral = $this->referral->getEntity($this->_data['referral_id']);
+            $referral = $this->referral->load($this->_data['referral_id']);
             $this->_data['page']='referral';
             return $this->load->view('admin/vwReferralEdit', array('data'=>$this->_data,'referral'=>$referral,'errors'=>$errors));
         }
@@ -106,7 +74,7 @@ class Referral extends CI_Controller {
         if(!$id){
             return redirect('admin/referral');
         }
-        $this->_data['referral'] = $this->referral->getEntity($id);
+        $this->_data['referral'] = $this->referral->load($id);
         $this->load->view('admin/vwReferralDetails',$this->_data);
     }
 }

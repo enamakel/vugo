@@ -68,7 +68,7 @@ $this->load->view('vwHeader_vw');
                                 <select id="country" style="" class="form-control" placeholder="Country" name="country">
                                     <option class="" value=""></option>
                                     <?php foreach($countries as $k=>$v): ?>
-                                        <option <?php echo ((isset($country)&&$country==$k)?'selected="selected"':'')?> label="<?php echo $v?>" value="<?php echo $k?>"><?php echo $v?></option>
+                                        <option <?php echo ((isset($country)&&$country==$k)?'selected="selected"':'')?> label="<?php echo $v['label']?>" value="<?php echo $k?>"><?php echo $v['label']?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
