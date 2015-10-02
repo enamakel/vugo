@@ -2,16 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Z:/vugo/application/views/auth/vwRegister.php</file>
-            <file>file:/Z:/vugo/application/controllers/auth.php</file>
-            <file>file:/Z:/vugo/application/controllers/admin/users.php</file>
-            <file>file:/Z:/vugo/system/libraries/Pagination.php</file>
-            <file>file:/Z:/vugo/application/views/admin/vwDashboard.php</file>
-            <file>file:/Z:/vugo/application/views/admin/vwHeader.php</file>
-            <file>file:/Z:/vugo/application/views/admin/vwLogin.php</file>
-            <file>file:/Z:/vugo/application/views/admin/vwReferralDetails.php</file>
-            <file>file:/Z:/vugo/application/controllers/admin/referral.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

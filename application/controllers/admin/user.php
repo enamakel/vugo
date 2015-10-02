@@ -8,7 +8,7 @@ protected $_data = array('controller'=>'user');
     
     public function __construct() 
     {
-        parent::__construct();
+     parent::__construct();
         $this->load->library('form_validation');
          if (!$this->session->userdata('is_admin_login')) {
             return redirect('admin/home');
@@ -22,11 +22,24 @@ protected $_data = array('controller'=>'user');
         $this->_pagerConfig['total_rows'] = $this->user->countTableRows();            
         parent::_initPager();
     }
-
+    
+    private function _prepareData() 
+    {
+        if(!isset($this->_data['password']) || !$this->_data['password']) {
+            $this->_data['password'] = $this->_data['form_id'];
+        } else {
+            $this->_data['password'] = md5($this->_data['password']);
+        }
+        
+        $this->_data['phone_number'] = $this->_data['country'].' '.$this->_data['phone_number'];
+        unset($this->_data['phone_code']);
+        return $this;
+    }
+    
     public function index() 
     {
         $this->_initPager();
-        $this->_data['users'] = $this->user->getReferralList($this->_pagerConfig['per_page']);     
+        $this->_data['users'] = $this->user->getUserList($this->_pagerConfig['per_page']);     
         return $this->load->view('admin/vwUserGrid',$this->_data);
     }
     
@@ -53,18 +66,19 @@ protected $_data = array('controller'=>'user');
         $this->_data['user'] = $this->user->load($id);
         $this->load->view('admin/vwUserEdit',$this->_data);
     }
-   
-    private function _prepareData() 
-    {
-        if(!isset($this->_data['password']) || !$this->_data['password']) {
-            $this->_data['password'] = $this->_data['form_id'];
-        } else {
-            $this->_data['password'](md5($this->_data['password']));
+    
+    public function delete($id=false) {
+         if(!$id){
+            $this->addError('User id is undefined');
+            return redirect('admin/user');
         }
-        
-        $this->_data['phone_number'] = $this->_data['country'].' '.$this->_data['phone_number'];
-        unset($this->_data['phone_code']);
-        return $this;
+        try {
+            $this->user->load($id)->delete();
+            $this->addSuccess('User successfully deleted');
+        } catch (Exception $e) {
+            $this->addError($e->getMessage());
+        }   
+        return redirect('admin/user');
     }
 
     public function save() 
@@ -78,10 +92,15 @@ protected $_data = array('controller'=>'user');
         $this->form_validation->set_rules('country', 'Country', 'required');
         $this->form_validation->set_rules('phone_number', 'Phone Name', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required');
         if ($this->form_validation->run() != FALSE) {
             unset($this->_data['form_id']);
-            $this->_data = $this->user->setData($this->_data)->save();
-            $this->addSuccess('User successfully saved');
+            try {
+                $this->_data = $this->user->setData($this->_data)->save();
+                $this->addSuccess('User successfully saved');
+            } catch (Exception $e) {
+                $this->addError($e->getMessage());
+            }   
             return redirect('admin/user');
         } else {
             $this->form_validation->set_error_delimiters('','|');
@@ -93,14 +112,5 @@ protected $_data = array('controller'=>'user');
             $this->_data['page']='user';
             return $this->load->view('admin/vwUserEdit', array('data'=>$this->_data,'user'=>$user));
         }
-    }
-    
-    public function details() {
-        $id = $this->uri->segment(4);
-        if(!$id){
-            return redirect('admin/user');
-        }
-        $this->_data['user'] = $this->user->load($id);
-        $this->load->view('admin/vwReferralDetails',$this->_data);
     }
 }

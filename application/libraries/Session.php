@@ -786,11 +786,11 @@ class CI_Session {
             return $this;
         }
         
-        function addMessage($message) {
+        function addMessage($message,$type = 'danger') {
             $messages = $this->userdata('messages');
             if(!$messages) $messages = array();
             
-            $messages[] = $message;
+            $messages[] = "<div class='alert alert-".$type." alert-dismissable '><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>".$message."</div>";
             $this->set_userdata('messages',$messages);
             return $this;
         }

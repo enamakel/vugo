@@ -6,13 +6,13 @@ $this->load->helper('user');
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1>Users <small>Edit users</small></h1>
+            <h1>Users <small>User Management</small></h1>
             <ol class="breadcrumb">
-                <li><a href="<?php echo base_url(); ?>admin/user"><i class="fa fa-users"></i>User management</a></li>
+                <li><a href="<?php echo base_url(); ?>admin/user"><i class="fa fa-users"></i>User Management</a></li>
                 <?php if($user->getUserId()): ?>
-                    <li class="active"><i class="fa fa-edit"></i>Edit User</li>     
+                    <li class="active"><i class="fa fa-user"></i>Edit User "<?php echo $user->getName() ?>"</li>     
                 <?php else: ?>
-                    <li class="active"><i class="fa fa-file"></i>Add New User</li>     
+                    <li class="active"><i class="fa fa-user"></i>Add New User</li>     
                 <?php endif; ?>
             </ol>
         </div>

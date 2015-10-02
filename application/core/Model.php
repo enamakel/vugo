@@ -11,7 +11,7 @@
 class CI_Model {
     /* Model table name */
     protected $_table;
-    
+
     /* Model key name */
     protected $_entity_id;
     
@@ -310,7 +310,30 @@ class CI_Model {
         return $this;
     }
     
-    public function getId() {
+    public function getId() 
+    {
         return $this->getData('id')?$this->getData('id'):$this->getData($this->_entity_id);
+    }
+    
+    protected function _beforeDelete()
+    {
+        return $this;
+    }
+    
+    protected function _afterDelete()
+    {
+        return $this;
+    }
+    
+    /**
+     * Delete entity
+     * @return \CI_Model
+     */
+    public function delete()
+    {
+        $this->_beforeDelete();
+        $result = $this->db->delete($this->_table, array($this->_entity_id => $this->_data[$this->_entity_id])); 
+        $this->_afterDelete();
+        return $this;
     }
 }

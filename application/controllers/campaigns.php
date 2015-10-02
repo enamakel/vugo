@@ -1,7 +1,7 @@
 <?php
 class Campaigns extends CI_Controller {
 
-    private $_data = array();
+    protected $_data = array();
 
 
     public function __construct() {

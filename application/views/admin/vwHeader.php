@@ -46,20 +46,17 @@
             <a class="navbar-brand" href="<?php echo base_url(); ?>admin">Vugo Admin Panel</a>
         </div>
  <?php 
-// Define a default Page
-  $pg = isset($controller) && $controller != '' ?  $controller :'dash'  ;    
+    // Define a default Page
+    $pg = isset($controller) && $controller != '' ?  $controller :'dash'  ;    
 ?>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li <?php echo  $pg =='dash' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/dashboard"><i class="fa fa-dashboard"></i>Dashboard</a></li>
             <li <?php echo  $pg =='referral' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/referral"><i class="fa fa-barcode"></i>Refferral Codes</a></li>
-            <li <?php echo  $pg =='user' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/user"><i class="fa fa-users"></i>Users</a></li>
-            <li <?php echo  $pg =='compaign' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/compaign"><i class="fa fa-dollar"></i>User Compaigns</a></li>
-            
-        
+            <li <?php echo  $pg =='user' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/user"><i class="fa fa-users"></i>User Management</a></li>
+            <li <?php echo  $pg =='campaign' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/campaign"><i class="fa fa-dollar"></i>User Campaigns</a></li>
           </ul>
-
           <ul class="nav navbar-nav navbar-right navbar-user">
             <li class="dropdown messages-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> Messages <span class="badge">7</span> <b class="caret"></b></a>

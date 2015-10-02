@@ -5,11 +5,11 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1>Users <small>Grid</small></h1>
+            <h1>User Management <small>Overview</small></h1>
             <ol class="breadcrumb">
-                <li><a href="<?php echo base_url(); ?>admin/referral"><i class="fa fa-users"></i> Users</a></li>
+                <li><a href="#"><i class="fa fa-users"></i> User Management</a></li>
                 <li class="active"><i class="fa fa-table"></i> Grid</li>        
-                <button onclick="location.href='<?php echo base_url(); ?>admin/referral/add'" class="btn btn-primary" type="button" style="float:right;">Add New User</button>
+                <button onclick="location.href='<?php echo base_url(); ?>admin/user/add'" class="btn btn-success" type="button" style="float:right;">Add New User</button>
                 <div style="clear: both;"></div>
             </ol>
         </div>
@@ -63,12 +63,11 @@
     </div> 
 </div>
 <script type="text/javascript">
-    
     var deleteUserConfirm = function() {
         var user_id = $(this).attr('data-user');
         bootbox.confirm("Are you sure delete this user?", function(result) {
             if(result===true) {
-                location.href= "<?php echo base_url(); ?>admin/referral/edit/"+user_id;
+                location.href= "<?php echo base_url(); ?>admin/user/delete/"+user_id;
             }
         }); 
     }

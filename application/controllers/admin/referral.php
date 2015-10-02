@@ -60,6 +60,7 @@ class Referral extends CI_Controller {
         $this->form_validation->set_rules('code', 'Referral Code', 'required');
         if ($this->form_validation->run() != FALSE) {
             $this->_data = $this->referral->setData($this->_data)->save();
+            $this->addSuccess('Code was successfully saved');
             return redirect('admin/referral');
         } else {
             $errors = $this->form_validation->error_string();
@@ -67,6 +68,21 @@ class Referral extends CI_Controller {
             $this->_data['page']='referral';
             return $this->load->view('admin/vwReferralEdit', array('data'=>$this->_data,'referral'=>$referral,'errors'=>$errors));
         }
+    }
+    
+    public function delete($id=false) 
+    {
+         if(!$id){
+            $this->addError('Code id is undefined');
+            return redirect('admin/referral');
+        }
+        try {
+            $this->referral->load($id)->delete();
+            $this->addSuccess('Referral code successfully deleted');
+        } catch (Exception $e) {
+            $this->addError($e->getMessage());
+        }   
+        return redirect('admin/referral');
     }
     
     public function details() {

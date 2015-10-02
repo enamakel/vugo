@@ -36,7 +36,8 @@
 <body class="bg">
 <div class="dashboard">
     <div style="padding-top:70px" class="ng-scope">
+        <?php if(isset($first_name)): ?>
         <?php $this->load->view('dashboard/vwNavigation',array('first_name'=>isset($first_name)?$first_name:'')); ?>
-        <!-- uiView:  -->
+        <?php endif; ?>
         <div class="container ng-scope">
             <?php $this->load->view('dashboard/vwBreadcrumbs',array('bradcrumbs'=>isset($bradcrumbs)?$bradcrumbs:array())); ?>

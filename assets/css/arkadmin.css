@@ -190,3 +190,7 @@ table.tablesorter thead tr th:hover {
 .margin-bottom-10 {
     margin-bottom: 10px;
 }
+.alert {
+    margin-top: 5px;
+    margin-bottom: 0px !important;
+}

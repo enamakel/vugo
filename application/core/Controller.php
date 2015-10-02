@@ -81,7 +81,7 @@ class CI_Controller {
         if(trim($message)=='') {
             return $this;
         }
-        $this->session->addMessage("<div class='alert alert-".$type." alert-dismissable '><button aria-hidden='true' data-dismiss='alert' class='close' type='button'>×</button>".$message."</div>");
+        $this->session->addMessage($message,$type);
      
         return $this;
     }
@@ -130,4 +130,5 @@ class CI_Controller {
     {
         return $this->_addMessage($message, 'warning');
     }
+    
 }

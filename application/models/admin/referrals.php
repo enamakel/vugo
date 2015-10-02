@@ -32,7 +32,7 @@ class Referrals extends CI_Model
     {
         $added = '';
         $updated = date('Y-h-m H:i:s');
-        if($this->getId()) {
+        if(!$this->getId()) {
             $added = $updated;
         }
         $this->setData('added',$added);
