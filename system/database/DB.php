@@ -101,7 +101,7 @@ function &DB($params = '', $active_record_override = NULL)
 			}
 		}
 	}
-
+        
 	// No DB specified yet?  Beat them senseless...
 	if ( ! isset($params['dbdriver']) OR $params['dbdriver'] == '')
 	{

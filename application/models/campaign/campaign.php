@@ -45,10 +45,8 @@ class Campaign extends CI_Model
         $this->db->join('ci_campaigns_location', 'ci_campaigns.campaign_id = ci_campaigns_location.campaign','left');
         $this->db->join('ci_campaigns_target', 'ci_campaigns.campaign_id = ci_campaigns_target.campaign','left');
         $query = $this->db->get();
-      //  echo  $this->db->last_query(); exit;
         if ($query->num_rows() > 0 ) {
             $row = $query->row_array();
-          //  echo "<pre>"; print_r($row); exit;
             if($row['date_start']) {
             list($y,$m,$d) = explode("-", $row['date_start']);
                 $row['date_start'] = $m."/".$d."/".$y;
@@ -60,7 +58,6 @@ class Campaign extends CI_Model
             if($row['target']) {
                 $row['target'] = unserialize($row['target']);
             }
-           // echo '<pre>'; print_r($row); exit;
             return $row;
         }
         return false;
@@ -68,6 +65,21 @@ class Campaign extends CI_Model
     
     public function setCampaign($campaignData) {
         $this->_data=$campaignData;
+        if(!isset($this->_data['price_per_view']) || !$this->_data['price_per_view']) {
+            $this->db->from('ci_users');
+            $this->db->join('ci_referral_codes', 'ci_users.referral_code = ci_referral_codes.referral_id','inner');
+            $this->db->where('user_id', $this->session->userdata('id'));
+            $this->db->where('ci_referral_codes.status', '1');
+            $query = $this->db->get();
+            if ($query->num_rows() > 0 ) {
+                $row = $query->row();
+                $this->_data['price_per_view'] = $row->price_per_view;
+                $this->_data['price_per_click'] = $row->price_per_click;
+            } else {
+                $this->_data['price_per_view'] = $this->config->getPricePerView();
+                $this->_data['price_per_click'] = $this->config->getPricePerClick();
+            }
+        }
         return $this;
     }
     

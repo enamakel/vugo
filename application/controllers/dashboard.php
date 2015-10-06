@@ -14,7 +14,7 @@ class Dashboard extends CI_Controller {
     public function index(){
         $data = array();
         $data['first_name'] = $this->session->userdata('first_name');
-        $data['bradcrumbs'] = array('campaigns'=>'Maim page');
+        $data['bradcrumbs'] = array('campaigns'=>'Main page');
         $data['campaignList'] = $this->campaign->getCampaignList();
         $this->load->view('campaign/vwList', $data);
     }

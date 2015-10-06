@@ -2,36 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="abhishek@devzone.co.in">
-
-     <title>Free Codeigniter Admin Panel with Twitter Bootstrap 3.0 - .arkAdminPanel Ver 2.0 http://devzone.co.in</title>
+     <title>Vugo Admin Panel</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="<?php echo HTTP_CSS_PATH; ?>bootstrap.css" rel="stylesheet">
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <link href="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>bootstrap.css" rel="stylesheet">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
     <!-- Add custom CSS here -->
-    <link href="<?php echo HTTP_CSS_PATH; ?>arkadmin.css" rel="stylesheet">
+    <link href="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>arkadmin.css" rel="stylesheet">
+    <link href="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>tooltipster.css" rel="stylesheet">
       <!-- JavaScript -->
-    <script src="<?php echo HTTP_JS_PATH; ?>jquery-1.10.2.js"></script>
-    <script src="<?php echo HTTP_JS_PATH; ?>bootstrap.js"></script>
-    <script src="<?php echo HTTP_JS_PATH; ?>das.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery-1.11.3.min.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>tablesorter/jquery.tablesorter.min.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>bootstrap.min.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>bootbox.min.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.tooltipster.min.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.validate.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>additional-methods.min.js"></script>
+    <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.maskedinput.min.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="<?php echo HTTP_JS_PATH; ?>html5shiv.js"></script>
-      <script src="<?php echo HTTP_JS_PATH; ?>respond.min.js"></script>
+      <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>html5shiv.js"></script>
+      <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>respond.min.js"></script>
     <![endif]-->
-    <!--  
-
-Author : Abhishek R. Kaushik 
-Downloaded from http://devzone.co.in
--->
-
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.fa-info-circle').tooltipster();
+        });
+    </script>
   </head>
-
-  <body>
-
+ <body>
     <div id="wrapper">
 
       <!-- Sidebar -->
@@ -44,23 +43,20 @@ Downloaded from http://devzone.co.in
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a class="navbar-brand" href="<?php echo base_url(); ?>admin">ARK Admin Panel v2</a>
+            <a class="navbar-brand" href="<?php echo base_url(); ?>admin">Vugo Admin Panel</a>
         </div>
  <?php 
-// Define a default Page
-  $pg = isset($page) && $page != '' ?  $page :'dash'  ;    
+    // Define a default Page
+    $pg = isset($controller) && $controller != '' ?  $controller :'dash'  ;    
 ?>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav side-nav">
             <li <?php echo  $pg =='dash' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/dashboard"><i class="fa fa-dashboard"></i>Dashboard</a></li>
             <li <?php echo  $pg =='referral' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/referral"><i class="fa fa-barcode"></i>Refferral Codes</a></li>
-            <li <?php echo  $pg =='user' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/users"><i class="fa fa-users"></i>Users</a></li>
-            <li <?php echo  $pg =='compaign' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/compaign"><i class="fa fa-dollar"></i>User Compaigns</a></li>
-            
-        
+            <li <?php echo  $pg =='user' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/user"><i class="fa fa-users"></i>User Management</a></li>
+            <li <?php echo  $pg =='campaign' ? 'class="active"' : '' ?>><a href="<?php echo base_url(); ?>admin/campaign"><i class="fa fa-dollar"></i>User Campaigns</a></li>
           </ul>
-
           <ul class="nav navbar-nav navbar-right navbar-user">
             <li class="dropdown messages-dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> Messages <span class="badge">7</span> <b class="caret"></b></a>
@@ -121,4 +117,7 @@ Downloaded from http://devzone.co.in
             </li>
           </ul>
         </div><!-- /.navbar-collapse -->
-      </nav>
+    </nav>
+    <div class="message page-wrapper">
+      <?php echo $this->session->getMessages(); $this->session->clearMessages() ?>
+    </div>

@@ -1,11 +1,6 @@
 <?php
 $this->load->view('admin/vwHeader');
 ?>
-<!--  
-Load Page Specific CSS and JS here
-Author : Abhishek R. Kaushik 
-Downloaded from http://devzone.co.in
--->
 <!--  PAge Code Starts here -->
 
     <!-- Page Specific Plugins -->
@@ -21,15 +16,13 @@ Downloaded from http://devzone.co.in
           <div class="col-lg-12">
             <h1>Dashboard <small>Statistics Overview</small></h1>
             <ol class="breadcrumb">
-              <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+                <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                <li class="active"><i class="fa fa-th-large"></i> Overview</li>
             </ol>
-            <div class="alert alert-success alert-dismissable">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              Welcome to ARK Admin Panel by <a class="alert-link" href="http://devzone.co.in">DevZone.co.in</a>! 
-            </div>
+           
           </div>
         </div><!-- /.row -->
-
+        <br>
         <div class="row">
           <div class="col-lg-3">
             <div class="panel panel-info">

@@ -1,7 +1,6 @@
 <?php
 $this->load->view('admin/vwHeader');
 $this->load->helper('referral');
-//echo "<pre>"; print_r($this->session); exit;
 ?>
 <div id="page-wrapper">
     <div class="row">
@@ -32,6 +31,16 @@ $this->load->helper('referral');
         <div class="form-group">
             <label for="code">Referral Code</label>
             <input type="text" class="form-control" value="<?php echo $referral->getCode(); ?>" name="code" id="code" />
+        </div>
+        <div class="row">
+            <div class="col-lg-6 margin-bottom-10">
+                <label for="code">Price Per Click</label>
+                <input type="text" class="form-control" placeholder="Price Per Click" value="<?php echo $referral->getPricePerClick(); ?>" name="price_per_click" id="price_per_click" />
+            </div>
+            <div class="col-lg-6 margin-bottom-10">
+                <label for="code">Price Per View</label>
+                <input type="text" class="form-control" placeholder="Price Per View" value="<?php echo $referral->getPricePerView(); ?>" name="price_per_view" id="price_per_view" />
+            </div>
         </div>
         <div class="form-group">
             <label for="status">Status Code</label>

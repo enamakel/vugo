@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_IMAGES_PATH:HTTP_IMAGES_SECURE_PATH); ?>favicon.png">
     <title>Vugo official site</title>
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>lib.min.css' />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>style.min.css' />
     <link rel="stylesheet" href='<?php echo ((empty($_SERVER['HTTPS']))?HTTP_CSS_PATH:HTTP_CSS_SECURE_PATH); ?>tooltipster.css' />
         <!-- Bootstrap core CSS -->
@@ -19,7 +20,7 @@
       <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>html5shiv.js"></script>
       <script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>respond.min.js"></script>
     <![endif]-->
-	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery-1.10.2.js"></script>
+	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery-1.11.3.min.js"></script>
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>bootstrap.min.js"></script>
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.tooltipster.min.js"></script>
 	<script src="<?php echo ((empty($_SERVER['HTTPS']))?HTTP_JS_PATH:HTTP_JS_SECURE_PATH); ?>jquery.validate.js"></script>
@@ -35,7 +36,8 @@
 <body class="bg">
 <div class="dashboard">
     <div style="padding-top:70px" class="ng-scope">
+        <?php if(isset($first_name)): ?>
         <?php $this->load->view('dashboard/vwNavigation',array('first_name'=>isset($first_name)?$first_name:'')); ?>
-        <!-- uiView:  -->
+        <?php endif; ?>
         <div class="container ng-scope">
             <?php $this->load->view('dashboard/vwBreadcrumbs',array('bradcrumbs'=>isset($bradcrumbs)?$bradcrumbs:array())); ?>
